@@ -2,6 +2,7 @@
 var express = require('express');
 var passport = require('passport');
 var InstagramStrategy = require('passport-instagram').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 var http = require('http');
 var path = require('path');
 var handlebars = require('express-handlebars');
@@ -48,6 +49,10 @@ passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
 
+
+passport.use(new TwitterStrategy{
+  clientID: 
+})
 
 // Use the InstagramStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -219,6 +224,14 @@ app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
 app.get('/visualization', ensureAuthenticatedInstagram, function (req, res){
   res.render('visualization');
 }); 
+
+app.get('/myvisualiation', ensureAuthenticated, function(req, res) {
+  res.render('myvisualization');
+});
+
+app.get('/myc3visualization', ensureAuthenticated, function(req, res) {
+  res.render('myc3visualization');
+});
 
 
 app.get('/c3visualization', ensureAuthenticatedInstagram, function (req, res){

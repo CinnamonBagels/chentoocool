@@ -28,6 +28,7 @@ var svg = d3.select("body").append("svg")
 
 //get json object which contains media counts
 d3.json('/igMediaCounts', function(error, data) {
+  console.log(data);
   //set domain of x to be all the usernames contained in the data
   scaleX.domain(data.users.map(function(d) { return d.username; }));
   //set domain of y to be from 0 to the maximum media count returned
