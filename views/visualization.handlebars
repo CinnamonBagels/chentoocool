@@ -1,5 +1,35 @@
-<h1> Media Count of Your Instagram Followers </h1>
-<div id="chart"></div>
+<div class="" id="spinner">
+	<h3>Loading...</h3>
+</div>
+<hr>
+<h3>You are logged in as {{user.name}}. <a href="/account" class="btn btn-info">Back to Home</a> | <a href="/logout" class="btn btn-danger">Logout</a></h3>
+<hr>
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3 text-center">
+		<a class="btn btn-primary" href="/visualization">View D3 Graph</a> | <a  class="btn btn-primary" href="/c3visualization">View C3 Graph</a> | <a class="btn btn-primary" href="/myvisualization">View a New D3 Graph</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12 text-center">
+		<h1> Media Count of Your Instagram Followers </h1>
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="row">
+			<div class="col-lg-6">
+				<a href="#" class="btn btn-primary btn-block" onclick="getigshit(false)">View your Media Count (unsorted)</a>
+			</div>
+			<div class="col-lg-6">
+				<a href="#" class="btn btn-primary btn-block" onclick="getigshit(true)">View your Media Count (sorted)</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div id="chart"></div>
+</div>
 
+<script src="js/tip.js"></script>
 <script src="js/visualization.js"></script>
 

@@ -1,0 +1,37 @@
+.box {
+	border : 1px solid black;
+	height: 300px;
+	width: 500px;
+}
+
+div#spinner
+{
+    display: none;
+    width:128px;
+    height: 128px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background:url(http://www.ffetch.com/app/webroot/img/loading-spinner11.gif) no-repeat center;
+    text-align:center;
+    padding:10px;
+    font:normal 16px Tahoma, Geneva, sans-serif;
+    margin-left: -50px;
+    margin-top: -50px;
+    z-index:2;
+    overflow: auto;
+}
+
+.d3-tip {
+	background-color: rgba(0, 0, 0, 0.7);
+	padding-bottom : 3px;
+	padding-top : 3px;
+	padding-left : 3px;
+	padding-right : 3px;
+	border: 1px solid black;
+}
+
+p.tip {
+	color: white;
+	font-size: 1.25em;
+}

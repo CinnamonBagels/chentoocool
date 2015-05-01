@@ -3,6 +3,7 @@ var express = require('express');
 var passport = require('passport');
 var InstagramStrategy = require('passport-instagram').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var RedditStrategy = require('passport-reddit').Strategy;
 var http = require('http');
 var path = require('path');
 var handlebars = require('express-handlebars');
@@ -17,17 +18,20 @@ var app = express();
 
 //local dependencies
 var models = require('./models');
-
+var local = true;
 //client id and client secret here, taken from .env
 dotenv.load();
 var INSTAGRAM_CLIENT_ID = process.env.INSTAGRAM_CLIENT_ID;
 var INSTAGRAM_CLIENT_SECRET = process.env.INSTAGRAM_CLIENT_SECRET;
-var INSTAGRAM_CALLBACK_URL = process.env.INSTAGRAM_CALLBACK_URL;
+var INSTAGRAM_CALLBACK_URL = local ? 'http://localhost:3000/auth/instagram/callback' : process.env.INSTAGRAM_CALLBACK_URL;
+var REDDIT_CLIENT_ID = process.env.REDDIT_CLIENT_ID;
+var REDDIT_CLIENT_SECRET = process.env.REDDIT_CLIENT_SECRET;
+var REDDIT_CALLBACK_URL = local ? 'http://localhost:3000/auth/reddit/callback' : process.env.REDDIT_CALLBACK_URL
 Instagram.set('client_id', INSTAGRAM_CLIENT_ID);
 Instagram.set('client_secret', INSTAGRAM_CLIENT_SECRET);
 
 //connect to database
-mongoose.connect(process.env.MONGODB_CONNECTION_URL);
+mongoose.connect(process.env.MONGOLAB_URI);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
@@ -48,11 +52,16 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-
-
-passport.use(new TwitterStrategy{
-  clientID: 
-})
+  
+passport.use(new RedditStrategy({
+    clientID : REDDIT_CLIENT_ID,
+    clientSecret : REDDIT_CLIENT_SECRET,
+    callbackURL : REDDIT_CALLBACK_URL
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(profile);
+  }
+))
 
 // Use the InstagramStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
@@ -181,6 +190,51 @@ app.get('/igphotos', ensureAuthenticatedInstagram, function(req, res){
   });
 });
 
+app.get('/igFollowers', ensureAuthenticatedInstagram, function(req, res) {
+  var query = models.User.where({ig_id : req.user.ig_id});
+
+  query.findOne(function(err, user) {
+    if(err) return err;
+    if(user) {
+      Instagram.users.followed_by({
+        user_id : user.ig_id,
+        access_token : user.ig_access_token,
+        complete : function(data) {
+          //console.log(data);
+          var asyncTasks = [];
+          var mediaCounts = [];
+
+          data.forEach(function(item) {
+            asyncTasks.push(function(callback) {
+              Instagram.users.info({
+                user_id : item.id,
+                access_token : user.ig_access_token,
+                complete : function(data) {
+                  mediaCounts.push(data);
+                  callback();
+                },
+                error : function(errorMessage, errorObject, caller) {
+                  console.log(errorMessage, errorObject);
+                  callback();
+                }
+              });
+            });
+          });
+
+          async.parallel(asyncTasks, function(err) {
+            if(err) return console.log(err);
+            console.log('done');
+            return res.json({ users : mediaCounts });
+          });
+        },
+        error : function(errorMessage, errorObject, caller) {
+          console.log(errorMessage, errorObject);
+        }
+      });
+    }
+  });
+});
+
 app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
   var query  = models.User.where({ ig_id: req.user.ig_id });
   query.findOne(function (err, user) {
@@ -190,6 +244,7 @@ app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
         user_id: user.ig_id,
         access_token: user.ig_access_token,
         complete: function(data) {
+          console.log(data);
           // an array of asynchronous functions
           var asyncTasks = [];
           var mediaCounts = [];
@@ -222,20 +277,20 @@ app.get('/igMediaCounts', ensureAuthenticatedInstagram, function(req, res){
 });
 
 app.get('/visualization', ensureAuthenticatedInstagram, function (req, res){
-  res.render('visualization');
+  res.render('visualization', { user : req.user });
 }); 
 
-app.get('/myvisualiation', ensureAuthenticated, function(req, res) {
-  res.render('myvisualization');
+app.get('/myvisualization', ensureAuthenticated, function(req, res) {
+  res.render('myvisualization', { user : req.user });
 });
 
 app.get('/myc3visualization', ensureAuthenticated, function(req, res) {
-  res.render('myc3visualization');
+  res.render('myc3visualization', { user : req.user });
 });
 
 
 app.get('/c3visualization', ensureAuthenticatedInstagram, function (req, res){
-  res.render('c3visualization');
+  res.render('c3visualization', { user : req.user });
 }); 
 
 app.get('/auth/instagram',
@@ -255,6 +310,14 @@ app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
+app.get('/auth/reddit', passport.authenticate('reddit'), function(req, res) {
+
+});
+
+app.get('/auth/reddit/callback', passport.authenticate('reddit', { failureRedirect : '/login'}), function(req, res) {
+  res.redirect('account');
+} );
 
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Express server listening on port ' + app.get('port'));
