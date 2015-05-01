@@ -18,7 +18,7 @@ var app = express();
 
 //local dependencies
 var models = require('./models');
-var local = true;
+var local = false;
 //client id and client secret here, taken from .env
 dotenv.load();
 var INSTAGRAM_CLIENT_ID = process.env.INSTAGRAM_CLIENT_ID;
