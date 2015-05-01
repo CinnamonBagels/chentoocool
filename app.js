@@ -3,7 +3,6 @@ var express = require('express');
 var passport = require('passport');
 var InstagramStrategy = require('passport-instagram').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
-var RedditStrategy = require('passport-reddit').Strategy;
 var http = require('http');
 var path = require('path');
 var handlebars = require('express-handlebars');
@@ -52,16 +51,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
-  
-passport.use(new RedditStrategy({
-    clientID : REDDIT_CLIENT_ID,
-    clientSecret : REDDIT_CLIENT_SECRET,
-    callbackURL : REDDIT_CALLBACK_URL
-  },
-  function(accessToken, refreshToken, profile, done) {
-    console.log(profile);
-  }
-))
 
 // Use the InstagramStrategy within Passport.
 //   Strategies in Passport require a `verify` function, which accept
