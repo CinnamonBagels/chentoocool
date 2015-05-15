@@ -17,6 +17,7 @@
     "instagram-node-lib": "^0.1.1",
     "mongoose": "^4.0.1",
     "mongoose-findorcreate": "^0.1.2",
+    "mysql": "^2.6.2",
     "passport": "0.2.1",
     "passport-instagram": "0.1.2",
     "passport-reddit": "^0.2.4",
