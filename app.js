@@ -62,8 +62,8 @@ app.get('/medianListPrice', function(req, res) {
 	var query = [
 		selectAllFrom,
 		mlp,
-		whereInSD,
-		limit
+		whereInSD
+		/* limit */
 	].join(' ');
 	pg.connect(conn, function(err, client, done) {
 		if(err) return console.log(err);
@@ -77,6 +77,10 @@ app.get('/medianListPrice', function(req, res) {
 	});
 });
 
+//TODO chen and martin
+//all routes listed on trello. Look at the one I did above to see how it works
+//generally, the query will be like
+//SELECT * FROM _____ WHERE ______ 
 app.get('/medianSalePrice', function(req, res) {
 
 });
