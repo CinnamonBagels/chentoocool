@@ -14,6 +14,7 @@
     "express": "4.12.3",
     "express-handlebars": "1.2.2",
     "express-session": "1.10.4",
+    "fast-csv": "^0.6.0",
     "instagram-node-lib": "^0.1.1",
     "mongoose": "^4.0.1",
     "mongoose-findorcreate": "^0.1.2",
@@ -21,7 +22,8 @@
     "passport": "0.2.1",
     "passport-instagram": "0.1.2",
     "passport-reddit": "^0.2.4",
-    "passport-twitter": "^1.0.3"
+    "passport-twitter": "^1.0.3",
+    "pg": "^4.3.0"
   },
   "engines": {
     "node": "0.10.x"

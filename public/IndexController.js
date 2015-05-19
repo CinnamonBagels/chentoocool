@@ -1,1 +1,4 @@
-angular.module('app', []);
+angular.module('app')
+.controller('IndexController', ['VService', function(VService) {
+
+}]);

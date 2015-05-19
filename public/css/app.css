@@ -35,3 +35,18 @@ p.tip {
 	color: white;
 	font-size: 1.25em;
 }
+
+#map {
+    height: 395px;
+    border: 1px solid black;
+}
+
+#barcharts {
+    height: 395px;
+    border: 1px solid black;
+}
+
+#linegraphs {
+    height: 200px;
+    border: 1px solid black;
+}

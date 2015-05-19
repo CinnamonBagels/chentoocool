@@ -7,23 +7,15 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var dotenv = require('dotenv');
-var mongoose = require('mongoose');
 var async = require('async');
 var app = express();
+var pg = require('pg');
 
-//local dependencies
-var models = require('./models');
 var local = false;
 //client id and client secret here, taken from .env
-dotenv.load();
+//dotenv.load();
 
-//connect to database
-mongoose.connect(process.env.MONGOLAB_URI);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
-  console.log("Database connected succesfully.");
-});
+var conn = 'postgres://cogsci_121_1:Lj9vQnwMVikW@delphidata.ucsd.edu:5432/delphibetadb';
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -56,7 +48,38 @@ app.set('port', process.env.PORT || 3000);
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
+var mlp = 'zillow_zip_median_listing_price_all_homes_norm';
+var msp = 'zillow_zip_median_sold_price_all_homes_norm';
+var iv = 'zillow_zip_pct_of_homes_increasing_in_values_all_homes_norm';
+var dv = 'zillow_zip_pct_of_homes_decreasing_in_values_all_homes_norm';
+var sfg = 'zillow_zip_pct_of_homes_selling_for_gain_all_homes_norm';
+var sfl = 'zillow_zip_pct_of_homes_selling_for_loss_all_homes_norm';
+var selectAllFrom = 'select * from';
+var limit = 'limit 10'
+var whereInSD = 'where \"State\"=\'CA\' and \"City\"=\'San Diego\'';
 
+app.get('/medianListPrice', function(req, res) {
+	var query = [
+		selectAllFrom,
+		mlp,
+		whereInSD,
+		limit
+	].join(' ');
+	pg.connect(conn, function(err, client, done) {
+		if(err) return console.log(err);
+
+		client.query(query, function(err, rows) {
+			if(err) return console.log(err) 
+			if(rows) {
+				res.send(rows);
+			}
+		});
+	});
+});
+
+app.get('/medianSalePrice', function(req, res) {
+
+});
 //route
 app.get("*", function(req, res){
 	res.sendFile(__dirname + "/public/index.html");

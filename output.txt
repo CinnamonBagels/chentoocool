@@ -1,0 +1,2 @@
+=== chentoocool Config Vars
+DATABASE_URL: postgres://byzkuhxdthjgvq:uSEhyYjucxj494bj6BNmAsGr3I@ec2-23-23-126-39.compute-1.amazonaws.com:5432/devooujotasct
