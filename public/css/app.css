@@ -37,16 +37,21 @@ p.tip {
 }
 
 #map {
-    height: 395px;
-    border: 1px solid black;
-}
-
-#barcharts {
-    height: 395px;
-    border: 1px solid black;
 }
 
 #linegraphs {
-    height: 200px;
-    border: 1px solid black;
+    border-top: 1px solid black;
+    margin-top: -1px;
+}
+
+.bar {
+    background-color: steelblue;
+    color: white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.chart {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

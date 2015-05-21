@@ -17,18 +17,19 @@ var local = false;
 
 var conn = 'postgres://cogsci_121_1:Lj9vQnwMVikW@delphidata.ucsd.edu:5432/delphibetadb';
 
-// Passport session setup.
-//   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete Instagram profile is
-//   serialized and deserialized.
-
-// Use the InstagramStrategy within Passport.
-//   Strategies in Passport require a `verify` function, which accept
-//   credentials (in this case, an accessToken, refreshToken, and Instagram
-//   profile), and invoke a callback with a user object.
+var medianRelationQuery = ['SELECT listings."State" as state,', 
+	'listings."RegionName" as regionName,', 
+	'listings."Value" as listValue,',
+	'listings."Month" as month,', 
+	'listings."Year" as year,',
+	'sales."Value" as saleValue',
+'from zillow_zip_median_listing_price_all_homes_norm as listings,',
+     'zillow_zip_median_sold_price_all_homes_norm as sales',
+'where listings."State"=\'CA\'',
+'and listings."City"=\'San Diego\'',
+'and listings."RegionName"=sales."RegionName"',
+'and listings."Month"=sales."Month"',
+'and listings."Year"=sales."Year" limit 5'].join(' ');
 
 
 //Configures the Template engine
@@ -77,12 +78,41 @@ app.get('/medianListPrice', function(req, res) {
 	});
 });
 
+app.get('/medianRelation', function(req, res) {
+	pg.connect(conn, function(err, client, done) {
+		if(err) return console.log(err);
+		client.query(medianRelationQuery, function(err, data) {
+			if(err) return console.log(err);
+			if(data.rows) {
+				res.send(data.rows);
+			}
+
+			res.end();
+		});
+	})
+});
+
 //TODO chen and martin
 //all routes listed on trello. Look at the one I did above to see how it works
 //generally, the query will be like
 //SELECT * FROM _____ WHERE ______ 
 app.get('/medianSalePrice', function(req, res) {
+	var query = [
+		selectAllFrom,
+		msp,
+		whereInSD
+	].join(' ');
 
+	pg.connect(conn, function(err, client, done) {
+		if(err)  return console.log(err);
+
+		client.query(query, function(err, rows) {
+			if(err) return console.log(err);
+			if(rows) {
+				res.send(rows);
+			}
+		})
+	})
 });
 //route
 app.get("*", function(req, res){

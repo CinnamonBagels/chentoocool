@@ -29,5 +29,9 @@ angular.module('app')
 		return $http.get('/data');
 	}
 
+	vservice.getMedianRelation = function() {
+		return $http.get('/medianRelation');
+	}
+
 	return vservice;
 }]);

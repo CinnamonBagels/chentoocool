@@ -1,0 +1,13 @@
+select listings."Value" as salevalue, sales."Value" as listvalue
+from zillow_zip_median_listing_price_all_homes_norm as listings,
+ zillow_zip_median_sold_price_all_homes_norm as sales
+where listings."State"=sales."State"
+and listings."State"='CA'
+and listings."RegionName"=sales."RegionName"
+and listings."RegionName"='92109'
+and listings."Month"=sales."Month"
+and listings."Month"=3
+and listings."Year"=sales."Year"
+and listings."Year"=2009
+
+695000, 552250
