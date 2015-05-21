@@ -96,6 +96,8 @@ app.get('/medianRelation', function(req, res) {
 //all routes listed on trello. Look at the one I did above to see how it works
 //generally, the query will be like
 //SELECT * FROM _____ WHERE ______ 
+
+//Martin: I'm not sure if I did these right, are they all suppose to be similar?
 app.get('/medianSalePrice', function(req, res) {
 	var query = [
 		selectAllFrom,
@@ -114,6 +116,87 @@ app.get('/medianSalePrice', function(req, res) {
 		})
 	})
 });
+
+app.get('/data', function(req, res){
+});
+
+app.get('/soldForGain', function(req, res){
+	var query = [
+		selectAllFrom,
+		sfg,
+		whereInSD
+		/* limit */
+	].join(' ');
+	pg.connect(conn, function(err, client, done) {
+		if(err) return console.log(err);
+
+		client.query(query, function(err, rows) {
+			if(err) return console.log(err) 
+			if(rows) {
+				res.send(rows);
+			}
+		});
+	});
+});
+
+app.get('/soldForLoss', function(req, res){
+	var query = [
+		selectAllFrom,
+		sfl,
+		whereInSD
+		/* limit */
+	].join(' ');
+	pg.connect(conn, function(err, client, done) {
+		if(err) return console.log(err);
+
+		client.query(query, function(err, rows) {
+			if(err) return console.log(err) 
+			if(rows) {
+				res.send(rows);
+			}
+		});
+	});
+});
+
+app.get('/increasingValues', function(req, res){
+	var query = [
+		selectAllFrom,
+		iv,
+		whereInSD
+		/* limit */
+	].join(' ');
+	pg.connect(conn, function(err, client, done) {
+		if(err) return console.log(err);
+
+		client.query(query, function(err, rows) {
+			if(err) return console.log(err) 
+			if(rows) {
+				res.send(rows);
+			}
+		});
+	});
+});
+
+app.get('/decreasingValues', function(req, res){
+	var query = [
+		selectAllFrom,
+		dv,
+		whereInSD
+		/* limit */
+	].join(' ');
+	pg.connect(conn, function(err, client, done) {
+		if(err) return console.log(err);
+
+		client.query(query, function(err, rows) {
+			if(err) return console.log(err) 
+			if(rows) {
+				res.send(rows);
+			}
+		});
+	});	
+});
+
+
 //route
 app.get("*", function(req, res){
 	res.sendFile(__dirname + "/public/index.html");
