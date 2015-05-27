@@ -31,21 +31,43 @@ function medianRelationQuery(zip) {
 	'and listings."City"=\'San Diego\'',
 	'and listings."RegionName"=sales."RegionName"',
 	'and listings."Month"=sales."Month"',
-	'and listings."RegionName"=\'' + zip + \'',
+	'and listings."RegionName"=\'' + zip + '\'',
 	'and listings."Year"=sales."Year" limit 10'].join(' ');
 	
 	return query;	
 } 
 
-function highestLowestPriceQuery(zip) {
+function listQuery(zip, ord) {
 	var query = 
-	[
-		'blah',
-		'blah'
+	['SELECT "State" as state,',
+	    '"RegionName" as regionName,', 
+		'"Value" as listValue,',
+		'"Month" as month,', 
+		'"Year" as year,',
+	 'from zillow_zip_median_listing_price_all_homes_norm'
+	 'where "City"=\'San Diego\'',
+	 'and "RegionName"=\'' + zip + '\'',
+	 'order by' + ord ? 'asc' : 'desc' + 'limit 1' 
 	].join(' ');
 
 	return query;
 }
+
+function salesQuery(zip, ord){
+	var query = 
+	['SELECT "State" as state,',
+	    '"RegionName" as regionName,', 
+		'"Value" as listValue,',
+		'"Month" as month,', 
+		'"Year" as year,',
+	 'from zillow_zip_median_sold_price_all_homes_norm'
+	 'where "City"=\'San Diego\'',
+	 'and "RegionName"=\'' + zip + '\'',
+	 'order by' + ord ? 'asc' : 'desc' + 'limit 1'
+	].join(' ');
+	return query;
+}
+	
 
 //Configures the Template engine
 app.use(express.static(path.join(__dirname, 'public')));

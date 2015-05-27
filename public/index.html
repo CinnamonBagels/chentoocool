@@ -52,16 +52,5 @@
 	$('#linegraphdiv').height(function() {
 		return $(window).height() * 0.3;
 	});
-
-	function initialize() {
-	    var mapOptions = {
-	      zoom: 10,
-	      center: {lat: 32.715738, lng: -117.161084}
-	    };
-	    var map = new google.maps.Map(document.getElementById('map'),
-	        mapOptions);
-	  }
-
-	  google.maps.event.addDomListener(window, 'load', initialize);
 	  </script>
 </body>

@@ -1,5 +1,51 @@
 angular.module('app')
 .controller('VCtrl', ['$scope', 'VService', function($scope, VService) {
+
+	function initialize() {
+	    var mapOptions = {
+	      zoom: 10,
+	      center: {lat: 32.715738, lng: -117.161084}
+	    };
+	    var map = new google.maps.Map(document.getElementById('map'),
+	        mapOptions);
+
+	    map.data.loadGeoJson('./zillowneighborhoodsca.geojson');
+
+	    map.data.setStyle(function(feature) {
+	    	var color;
+
+	    	if(!feature.getProperty('isColorful')) {
+	    		color = 'grey';
+	    	} else {
+	    		color = 'green';
+	    	}
+
+	    	return {
+	    		fillColor : color,
+	    		strokeColor : color,
+	    		strokeWeight : 1
+	    	};
+	    });
+	    map.data.addListener('click', function(event) {
+	    	if(event.feature.getProperty('isColorful')) {
+	    		event.feature.setProperty('isColorful', false);
+	    	} else {
+	    		event.feature.setProperty('isColorful', true);
+	    	}
+	    });
+
+	    map.data.addListener('mouseover', function(event) {
+	    	map.data.revertStyle();
+	    	map.data.overrideStyle(event.feature, { strokeWeight : 4 });
+	    });
+
+	    map.data.addListener('mouseout', function(event) {
+	    	map.data.revertStyle();
+	    });
+	  }
+
+	  google.maps.event.addDomListener(window, 'load', initialize);
+
 	var barcharts = d3.select('#barcharts');
 	var linegraph = d3.select('#linegraphs');
 	
@@ -77,29 +123,5 @@ angular.module('app')
 			.attr('height', function(d) {
 				return barchartHeight - y(d.listvalue);
 			});
-
-
-		// console.log(data);
-		// data.forEach(function(element) {
-		// 	var prices = [element.listvalue, element.salevalue];
-		// 	barcharts
-		// 	.append('div')
-		// 	.attr('class', 'chart')
-		// 	.selectAll('div')
-		// 	.data(prices)
-		// 	.enter()
-		// 	.append('div')
-		// 		.attr('class', 'bar')
-		// 		.style('width', function(d) {
-		// 			return d ? d / 1500 + 'px' : '100px'
-		// 		})
-		// 		.style('height', barHeight)
-		// 		.text(function(d) {
-		// 			if(!d) {
-		// 				return 'No Data.'
-		// 			}
-		// 			return Math.floor(d);
-		// 		});
-		// })
 	});
 }]);
