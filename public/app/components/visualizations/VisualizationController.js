@@ -133,30 +133,30 @@ angular.module('app')
     }
 
     var svg = d3.select("body").append("svg")
-    var WIDTH = 1000;
-    var HEIGHT = 500;
-    var MARGINS = {top: 20, right: 20, bottom: 20, left: 50};
-    var xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([2000,2010]);
-    var yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([-50, 50]);
-    var xAxis = d3.svg.axis().scale(xScale);
-    var yAxis = d3.svg.axis().scale(yScale).orient("left");
+    var lineWIDTH = 1000;
+    var lineHEIGHT = 500;
+    var lineMARGINS = {top: 20, right: 20, bottom: 20, left: 50};
+    var linexScale = d3.scale.linear().range([lineMARGINS.left, lineWIDTH - lineMARGINS.right]).domain([2000,2010]);
+    var lineyScale = d3.scale.linear().range([lineHEIGHT - lineMARGINS.top, lineMARGINS.bottom]).domain([-50, 50]);
+    var linexAxis = d3.svg.axis().scale(linexScale);
+    var lineyAxis = d3.svg.axis().scale(lineyScale).orient("left");
                     
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-        .call(xAxis);
+        .attr("transform", "translate(0," + (lineHEIGHT - lineMARGINS.bottom) + ")")
+        .call(linexAxis);
                     
     svg.append("g")
         .attr("class", "y axis")
-        .attr("transform", "translate(" + (MARGINS.left) + ",0)")
-        .call(yAxis);
+        .attr("transform", "translate(" + (lineMARGINS.left) + ",0)")
+        .call(lineyAxis);
 
     var lineGen = d3.svg.line()
         .x(function(d) {
-            return xScale(d.year);
+            return linexScale(d.year);
         })
         .y(function(d) {
-            return yScale(d.sale);
+            return lineyScale(d.sale);
         })
         .interpolate("basis");
                     
