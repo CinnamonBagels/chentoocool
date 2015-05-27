@@ -55,3 +55,7 @@ p.tip {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
