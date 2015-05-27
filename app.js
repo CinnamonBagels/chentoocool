@@ -17,20 +17,35 @@ var local = false;
 
 var conn = 'postgres://cogsci_121_1:Lj9vQnwMVikW@delphidata.ucsd.edu:5432/delphibetadb';
 
-var medianRelationQuery = ['SELECT listings."State" as state,', 
-	'listings."RegionName" as regionName,', 
-	'listings."Value" as listValue,',
-	'listings."Month" as month,', 
-	'listings."Year" as year,',
-	'sales."Value" as saleValue',
-'from zillow_zip_median_listing_price_all_homes_norm as listings,',
-     'zillow_zip_median_sold_price_all_homes_norm as sales',
-'where listings."State"=\'CA\'',
-'and listings."City"=\'San Diego\'',
-'and listings."RegionName"=sales."RegionName"',
-'and listings."Month"=sales."Month"',
-'and listings."Year"=sales."Year" limit 5'].join(' ');
+function medianRelationQuery(zip) {
+	var query = 
+	['SELECT listings."State" as state,', 
+		'listings."RegionName" as regionName,', 
+		'listings."Value" as listValue,',
+		'listings."Month" as month,', 
+		'listings."Year" as year,',
+		'sales."Value" as saleValue',
+	'from zillow_zip_median_listing_price_all_homes_norm as listings,',
+	     'zillow_zip_median_sold_price_all_homes_norm as sales',
+	'where listings."State"=\'CA\'',
+	'and listings."City"=\'San Diego\'',
+	'and listings."RegionName"=sales."RegionName"',
+	'and listings."Month"=sales."Month"',
+	'and listings."RegionName"=\'' + zip + \'',
+	'and listings."Year"=sales."Year" limit 10'].join(' ');
+	
+	return query;	
+} 
 
+function highestLowestPriceQuery(zip) {
+	var query = 
+	[
+		'blah',
+		'blah'
+	].join(' ');
+
+	return query;
+}
 
 //Configures the Template engine
 app.use(express.static(path.join(__dirname, 'public')));
@@ -72,19 +87,45 @@ app.get('/medianListPrice', function(req, res) {
 		client.query(query, function(err, rows) {
 			if(err) return console.log(err) 
 			if(rows) {
+				console.log(rows);
 				res.send(rows);
 			}
 		});
 	});
 });
 
+app.get('/highestandlowest', function(req, res) {
+	var zip = req.body.zip;
+	//query database to get highest limit 1/lowest
+	//query 
+});
+//find a way to get the highest list price, lowest price
+//as well as highest sale price, and lowest sale price of a zip code
 app.get('/medianRelation', function(req, res) {
+	var zip = req.body.zip;
 	pg.connect(conn, function(err, client, done) {
 		if(err) return console.log(err);
-		client.query(medianRelationQuery, function(err, data) {
+		client.query(medianRelationQuery(zip), function(err, data) {
 			if(err) return console.log(err);
 			if(data.rows) {
-				res.send(data.rows);
+				var modData = data.rows.map(function(row) {
+					var tempjson = row;
+					tempjson.listvalue = row.listvalue === null ? 0 : Math.floor(row.listvalue);
+					tempjson.salevalue = row.salevalue === null ? 0 : Math.floor(row.salevalue);
+					tempjson.date = row.month + '/' + row.year;
+					return tempjson;
+				});
+
+				modData.sort(function(first, second) {
+					if(first.year === second.year) {
+						return first.month - second.month;
+					}
+
+					return first.year - second.year;
+				});
+
+				console.log(modData);
+				res.send(modData);
 			}
 
 			res.end();
@@ -92,10 +133,6 @@ app.get('/medianRelation', function(req, res) {
 	})
 });
 
-//TODO chen and martin
-//all routes listed on trello. Look at the one I did above to see how it works
-//generally, the query will be like
-//SELECT * FROM _____ WHERE ______ 
 app.get('/medianSalePrice', function(req, res) {
 	var query = [
 		selectAllFrom,
