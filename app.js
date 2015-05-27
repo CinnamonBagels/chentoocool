@@ -44,7 +44,7 @@ function listQuery(zip, ord) {
 		'"Value" as listValue,',
 		'"Month" as month,', 
 		'"Year" as year,',
-	 'from zillow_zip_median_listing_price_all_homes_norm'
+	 'from zillow_zip_median_listing_price_all_homes_norm',
 	 'where "City"=\'San Diego\'',
 	 'and "RegionName"=\'' + zip + '\'',
 	 'order by' + ord ? 'asc' : 'desc' + 'limit 1' 
