@@ -33,5 +33,9 @@ angular.module('app')
 		return $http.get('/medianRelation');
 	}
 
+	vservice.getHighestAndLowest = function() {
+		return $http.get('/highestandlowest');
+	}
+
 	return vservice;
 }]);
