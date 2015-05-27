@@ -4,8 +4,11 @@ angular.module('app')
 	function initialize() {
 	    var mapOptions = {
 	      zoom: 10,
-	      center: {lat: 32.715738, lng: -117.161084}
+	      center: {lat: 32.715738, lng: -117.161084},
+	      disableDoubleClickZoom : true,
+	      streetViewControl : false
 	    };
+	    var geocoder = new google.maps.Geocoder();
 	    var map = new google.maps.Map(document.getElementById('map'),
 	        mapOptions);
 
@@ -27,16 +30,39 @@ angular.module('app')
 	    	};
 	    });
 	    map.data.addListener('click', function(event) {
-	    	if(event.feature.getProperty('isColorful')) {
-	    		event.feature.setProperty('isColorful', false);
-	    	} else {
-	    		event.feature.setProperty('isColorful', true);
-	    	}
+	    	var address;
+	    	var zip;
+	    	console.log(event.latLng)
+	    	geocoder.geocode({ 
+	    		location : {
+		    		lat : event.latLng.lat(), 
+		    		lng : event.latLng.lng() 
+	    		}
+	    	}, function(data, status) {
+	    		console.log(status);
+	    		if(status === 'OK') {
+		    		address = data[0].address_components;
+		    		console.log(address);
+		    		zip = address[address.length - 2].long_name;
+		    		if(isNaN(zip)) {
+		    			zip = address[address.length - 1].long_name;
+		    		}
+
+		    		if(event.feature.getProperty('isColorful')) {
+		    			event.feature.setProperty('isColorful', false);
+		    		} else {
+		    			event.feature.setProperty('isColorful', true);
+		    		}
+	    		} else {
+	    			//error
+	    			//you are clicking too fast error.
+	    		}
+	    	});
 	    });
 
 	    map.data.addListener('mouseover', function(event) {
 	    	map.data.revertStyle();
-	    	map.data.overrideStyle(event.feature, { strokeWeight : 4 });
+	    	map.data.overrideStyle(event.feature, { strokeWeight : 3 });
 	    });
 
 	    map.data.addListener('mouseout', function(event) {

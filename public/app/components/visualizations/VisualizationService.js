@@ -9,12 +9,16 @@ angular.module('app')
 		return $http.get('/soldForGain');
 	}
 
-	vservice.getMedianList = function() {
-		return $http.get('/medianListPrice');
+	vservice.getMedianList = function(zip) {
+		return $http.get('/medianListPrice', {
+			zip : zip
+		});
 	}
 
-	vservice.getMedianSale = function() {
-		return $http.get('/medianSalePrice');
+	vservice.getMedianSale = function(zip) {
+		return $http.get('/medianSalePrice', {
+			zip : zip
+		});
 	}
 
 	vservice.getIncreasingValues = function() {
@@ -29,8 +33,10 @@ angular.module('app')
 		return $http.get('/data');
 	}
 
-	vservice.getMedianRelation = function() {
-		return $http.get('/medianRelation');
+	vservice.getMedianRelation = function(zip) {
+		return $http.get('/medianRelation', {
+			zip : zip
+		});
 	}
 
 	vservice.getHighestAndLowest = function() {
