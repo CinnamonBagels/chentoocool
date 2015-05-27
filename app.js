@@ -96,6 +96,48 @@ app.get('/medianListPrice', function(req, res) {
 
 app.get('/highestandlowest', function(req, res) {
 	var zip = req.body.zip;
+	var lowestList, highestList, lowestSale, highestSale;
+	pg.connect(conn, function(err, client, done){
+		if(err) return console.log(err);
+		client.query(highestLowestListQuery(zip, 'asc'), function(err, data){
+			if(err) return console.log(err);
+			if(data.rows) {
+				var modData = data.rows.map(function(row){
+					lowestList = row.listvalue;
+				});
+			}
+			client.query(highestLowestListQuery(zip, 'desc'), function(err, data){
+				if(err) return console.log(err);
+				if(data.rows) {
+					var modData = data.rows.map(function(row){
+						highestList = row.listvalue;
+					});
+				}
+				client.query(highestLowestSaleQuery(zip, 'asc'), function(err, data){
+					if(err) return console.log(err);
+					if(data.rows) {
+						var modData = data.rows.map(function(row){
+							lowestSale = row.listvalue;
+						});
+					}
+					client.query(highestLowestSaleQuery(zip, 'desc'), function(err, data){
+						if(err) return console.log(err);
+						if(data.rows) {
+							var modData = data.rows.map(function(row){
+								highestSale = row.listvalue;
+								return {
+									lowestList : lowestList,
+									highestList : highestList,
+									lowestSale : lowestSale,
+									highestSale : highestSale
+								}
+							});
+						}
+					});
+				});
+			});
+		});
+	});
 	//query database to get highest limit 1/lowest
 	//query 
 });
