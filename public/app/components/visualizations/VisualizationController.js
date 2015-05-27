@@ -152,11 +152,10 @@ angular.module('app')
 			});
 	});
 
-    function InitDummyData() {
+    
     	var data = [{"sale": "-40", "year": "2000"}, {"sale": "20","year": "2002"}, 
     				{"sale": "-10", "year": "2004"}, {"sale": "5","year": "2006"}, 
     				{"sale": "-5", "year": "2008"}, {"sale": "33","year": "2010"}];
-    }
 
     var svg = d3.select("body").append("svg")
     var lineWIDTH = 1000;
