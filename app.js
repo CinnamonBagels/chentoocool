@@ -31,7 +31,7 @@ function medianRelationQuery(zip) {
 	'and listings."City"=\'San Diego\'',
 	'and listings."RegionName"=sales."RegionName"',
 	'and listings."Month"=sales."Month"',
-	'and listings."RegionName"=\'' + zip + \'',
+	'and listings."RegionName"=\'' + zip + '\'',
 	'and listings."Year"=sales."Year" limit 10'].join(' ');
 	
 	return query;	
