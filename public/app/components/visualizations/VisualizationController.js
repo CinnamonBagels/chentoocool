@@ -93,6 +93,10 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 	function loadMinMax(zip) {
 		VService.getHighestAndLowest(zip).success(function(data, status) {
 			console.log('minmax', data);
+			$scope.lowestList = data.lowestList;
+			$scope.highestList = data.highestList;
+			$scope.lowestSale = data.lowestSale;
+			$scope.highestSale = data.highestSale;
 		});
 	}
 }]);

@@ -24,22 +24,36 @@
 			
 		</div>
 		<div id="mapdiv" class="row">
-			<div id="map" class="col-lg-8">
+			<div id="map" class="col-lg-8 col-md-8">
 				
 			</div>
-			<div id="barchartsdiv" class="col-lg-4">
+			<div id="barchartsdiv" class="col-lg-4 col-md-4">
 				<div class="row" id="barcharts">
 
-				</div>
-				
+				</div>	
 			</div>
 		</div>
 		<div class="row" id="linegraphdiv">
-			<div id="linegraphs" class="col-lg-8">
+			<div id="linegraphs" class="col-lg-8 col-md-8">
 
 			</div>
-			<div id="text" class="col-lg-4">
-				
+			<div id="text" class="col-lg-4 col-md-4">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						Median List $
+					</div>
+					<div class="col-lg-6 col-md-6">
+						Median Sale $
+					</div>
+				</div>
+				<div class="row">
+					<div ng-model="highestList" class="col-lg-6 col-md-6">{{highestList}}</div>
+					<div ng-model="lowestList" class="col-lg-6 col-md-6">{{lowestList}}</div>
+				</div>
+				<div class="row">
+					<div ng-model="highestSale" class="col-lg-6 col-md-6">{{highestSale}}</div>
+					<div ng-model="lowestSale" class="col-lg-6 col-md-6">{{lowestSale}}</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -77,14 +91,3 @@
 	});
 	  </script>
 </body>
-
-<script>
-	(function() {
-		var nom = Math.rand() * 10 < 5 ? 'sane' : 'sayin';
-		if(nom === 'sane') {
-			console.log('nom\' sane?');
-		} else {
-			console.log('nom\' sayin?')
-		}
-	})();
-</script>

@@ -32,7 +32,7 @@ function medianRelationQuery(zip) {
 	'and listings."RegionName"=sales."RegionName"',
 	'and listings."Month"=sales."Month"',
 	'and listings."RegionName"=\'' + zip + '\'',
-	'and listings."Year"=sales."Year" limit 10'].join(' ');
+	'and listings."Year"=sales."Year"'].join(' ');
 	
 	return query;	
 } 
@@ -130,38 +130,30 @@ app.get('/highestandlowest/:zip', function(req, res) {
 	var lowestList, highestList, lowestSale, highestSale;
 	pg.connect(conn, function(err, client, done){
 		if(err) return console.log(err);
-		client.query(listQuery(zip, 'asc'), function(err, data){
+		client.query(listQuery(zip, true), function(err, lowlist){
 			if(err) return console.log(err);
-			if(data.rows) {
-				var modData = data.rows.map(function(row){
-					lowestList = row.listvalue;
-				});
+			if(lowlist.rows) {
+				lowestList = lowlist.rows[0].listvalue === null ? 'Unknown' : lowlist.rows[0].listvalue;
 			}
-			client.query(listQuery(zip, 'desc'), function(err, data){
+			client.query(listQuery(zip, false), function(err, highlist){
 				if(err) return console.log(err);
-				if(data.rows) {
-					var modData = data.rows.map(function(row){
-						highestList = row.listvalue;
-					});
+				if(highlist.rows) {
+					highestList = highlist.rows[0].listvalue === null ? 'Unknown' : highlist.rows[0].listvalue;
 				}
-				client.query(salesQuery(zip, 'asc'), function(err, data){
+				client.query(salesQuery(zip, true), function(err, lowsale){
 					if(err) return console.log(err);
-					if(data.rows) {
-						var modData = data.rows.map(function(row){
-							lowestSale = row.listvalue;
-						});
+					if(lowsale.rows) {
+						lowestSale = lowsale.rows[0].listvalue === null ? 'Unknown' : lowsale.rows[0].listvalue;
 					}
-					client.query(salesQuery(zip, 'desc'), function(err, data){
+					client.query(salesQuery(zip, false), function(err, highsale){
 						if(err) return console.log(err);
-						if(data.rows) {
-							var modData = data.rows.map(function(row){
-								highestSale = row.listvalue;
-								res.send({
-									lowestList : lowestList,
-									highestList : highestList,
-									lowestSale : lowestSale,
-									highestSale : highestSale
-								});
+						if(highsale.rows) {
+							highestSale = highsale.rows[0].listvalue === null ? 'Unknown' : highsale.rows[0].listvalue;
+							res.send({
+								lowestList : lowestList,
+								highestList : highestList,
+								lowestSale : lowestSale,
+								highestSale : highestSale
 							});
 						}
 					});

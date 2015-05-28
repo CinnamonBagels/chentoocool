@@ -15,7 +15,7 @@ angular.module('app')
 	console.log(barchartHeight);
 
 	var x = d3.scale.ordinal()
-			.rangeRoundBands([0, barchartWidth], 0.2);
+			.rangeRoundBands([0, barchartWidth], 0.1);
 
 	var y = d3.scale.linear().range([barchartHeight, 0]);
 
@@ -26,7 +26,7 @@ angular.module('app')
 	var yAxis = d3.svg.axis()
 				.scale(y)
 				.orient('left')
-				.ticks(3, 'K');
+				.ticks(5, 'K');
 
 	var svg = d3.select('#barcharts').append('svg')
 				.attr('width', barchartWidth + margin.left + margin.right)
@@ -59,7 +59,7 @@ angular.module('app')
 			.append('text')
 			.attr('transform', 'rotate(-90)')
 			.attr('y', 6)
-			.attr('dy', '.1em')
+			.attr('dy', '.71em')
 			.style('text-anchor', 'end')
 			.text('List Value');
 
