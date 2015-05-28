@@ -43,13 +43,12 @@ function listQuery(zip, ord) {
 	    '"RegionName" as regionName,', 
 		'"Value" as listValue,',
 		'"Month" as month,', 
-		'"Year" as year,',
+		'"Year" as year',
 	 'from zillow_zip_median_listing_price_all_homes_norm',
 	 'where "City"=\'San Diego\'',
 	 'and "RegionName"=\'' + zip + '\'',
-	 'order by' + ord ? 'asc' : 'desc' + 'limit 1' 
+	 'order by listValue ' + (ord ? 'asc' : 'desc') + ' limit 1' 
 	].join(' ');
-
 	return query;
 }
 
@@ -59,11 +58,11 @@ function salesQuery(zip, ord){
 	    '"RegionName" as regionName,', 
 		'"Value" as listValue,',
 		'"Month" as month,', 
-		'"Year" as year,',
+		'"Year" as year',
 	 'from zillow_zip_median_sold_price_all_homes_norm',
 	 'where "City"=\'San Diego\'',
 	 'and "RegionName"=\'' + zip + '\'',
-	 'order by' + ord ? 'asc' : 'desc' + 'limit 1'
+	 'order by listValue ' + (ord ? 'asc' : 'desc') + ' limit 1'
 	].join(' ');
 	return query;
 }
@@ -96,7 +95,18 @@ var selectAllFrom = 'select * from';
 var limit = 'limit 10'
 var whereInSD = 'where \"State\"=\'CA\' and \"City\"=\'San Diego\'';
 
-app.get('/medianListPrice', function(req, res) {
+function soldForGain(zip) {
+	var query = [
+		selectAllFrom,
+		sfg,
+		whereInSD,
+		'and "RegionName"=\'' + zip + '\''
+	].join(' ');
+
+	return query;
+}
+
+app.get('/medianListPrice/:zip', function(req, res) {
 	var query = [
 		selectAllFrom,
 		mlp,
@@ -109,50 +119,49 @@ app.get('/medianListPrice', function(req, res) {
 		client.query(query, function(err, rows) {
 			if(err) return console.log(err) 
 			if(rows) {
-				console.log(rows);
 				res.send(rows);
 			}
 		});
 	});
 });
 
-app.get('/highestandlowest', function(req, res) {
-	var zip = req.body.zip;
+app.get('/highestandlowest/:zip', function(req, res) {
+	var zip = req.params.zip;
 	var lowestList, highestList, lowestSale, highestSale;
 	pg.connect(conn, function(err, client, done){
 		if(err) return console.log(err);
-		client.query(highestLowestListQuery(zip, 'asc'), function(err, data){
+		client.query(listQuery(zip, 'asc'), function(err, data){
 			if(err) return console.log(err);
 			if(data.rows) {
 				var modData = data.rows.map(function(row){
 					lowestList = row.listvalue;
 				});
 			}
-			client.query(highestLowestListQuery(zip, 'desc'), function(err, data){
+			client.query(listQuery(zip, 'desc'), function(err, data){
 				if(err) return console.log(err);
 				if(data.rows) {
 					var modData = data.rows.map(function(row){
 						highestList = row.listvalue;
 					});
 				}
-				client.query(highestLowestSaleQuery(zip, 'asc'), function(err, data){
+				client.query(salesQuery(zip, 'asc'), function(err, data){
 					if(err) return console.log(err);
 					if(data.rows) {
 						var modData = data.rows.map(function(row){
 							lowestSale = row.listvalue;
 						});
 					}
-					client.query(highestLowestSaleQuery(zip, 'desc'), function(err, data){
+					client.query(salesQuery(zip, 'desc'), function(err, data){
 						if(err) return console.log(err);
 						if(data.rows) {
 							var modData = data.rows.map(function(row){
 								highestSale = row.listvalue;
-								return {
+								res.send({
 									lowestList : lowestList,
 									highestList : highestList,
 									lowestSale : lowestSale,
 									highestSale : highestSale
-								}
+								});
 							});
 						}
 					});
@@ -165,8 +174,8 @@ app.get('/highestandlowest', function(req, res) {
 });
 //find a way to get the highest list price, lowest price
 //as well as highest sale price, and lowest sale price of a zip code
-app.get('/medianRelation', function(req, res) {
-	var zip = req.body.zip;
+app.get('/medianRelation/:zip', function(req, res) {
+	var zip = req.params.zip;
 	pg.connect(conn, function(err, client, done) {
 		if(err) return console.log(err);
 		client.query(medianRelationQuery(zip), function(err, data) {
@@ -188,7 +197,6 @@ app.get('/medianRelation', function(req, res) {
 					return first.year - second.year;
 				});
 
-				console.log(modData);
 				res.send(modData);
 			}
 
@@ -197,12 +205,7 @@ app.get('/medianRelation', function(req, res) {
 	})
 });
 
-app.get('/medianSalePrice', function(req, res) {
-	var query = [
-		selectAllFrom,
-		msp,
-		whereInSD
-	].join(' ');
+app.get('/medianSalePrice/:zip', function(req, res) {
 
 	pg.connect(conn, function(err, client, done) {
 		if(err)  return console.log(err);
@@ -219,26 +222,35 @@ app.get('/medianSalePrice', function(req, res) {
 app.get('/data', function(req, res){
 });
 
-app.get('/soldForGain', function(req, res){
-	var query = [
-		selectAllFrom,
-		sfg,
-		whereInSD
-		/* limit */
-	].join(' ');
+app.get('/soldForGain/:zip', function(req, res){
+	var query = soldForGain(req.params.zip);
 	pg.connect(conn, function(err, client, done) {
 		if(err) return console.log(err);
 
-		client.query(query, function(err, rows) {
+		client.query(query, function(err, data) {
 			if(err) return console.log(err) 
-			if(rows) {
-				res.send(rows);
+			if(data.rows) {
+				var mod = data.rows;
+				mod.forEach(function(d) {
+					if(d.Value === null) {
+						d.Value = 0;
+					}
+				})
+				mod.sort(function(a, b) {
+					if(a.Year === b.Year) {
+						return a.Month - b.Month;
+					}
+
+					return a.Year - b.Year;
+				});
+				res.send(mod);
 			}
 		});
 	});
 });
 
-app.get('/soldForLoss', function(req, res){
+app.get('/soldForLoss/:zip', function(req, res){
+	var zip = req.params.zip;
 	var query = [
 		selectAllFrom,
 		sfl,

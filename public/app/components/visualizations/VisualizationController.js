@@ -78,18 +78,21 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 
 	function loadBarChart(zip) {
 		VService.getMedianRelation(zip).success(function(data, status) {
+			console.log('bar', data);
 			Barchart.loadChart(data);
 		});
 	}
 
 	function loadLineGraph(zip) {
 		VService.getSoldForGain(zip).success(function(data, status) {
+			console.log('line', data);
 			Linechart.loadChart(data);
 		});
 	}
 
 	function loadMinMax(zip) {
 		VService.getHighestAndLowest(zip).success(function(data, status) {
+			console.log('minmax', data);
 			Minmax.generateData(data);
 		});
 	}
