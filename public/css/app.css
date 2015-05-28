@@ -59,3 +59,32 @@ p.tip {
 body {
     font-family: Helvetica, Arial, sans-serif;
 }
+
+.landing {
+}
+
+#landing-text {
+    margin-top: 15%;
+    font-size: 7em;
+    color: white;
+    letter-spacing: 15px;
+}
+
+#landingImage {
+    height: inherit;
+    width: inherit;
+}
+
+.landingImageContainer {
+    margin-left: -15px;
+    padding-right: 0;
+    position: fixed;
+}
+
+#mapdiv, #linegraphdiv, #map, #barcharts,#linegraphs, #text {
+    background-color: white !important;
+}
+
+#app {
+    color: white;
+}

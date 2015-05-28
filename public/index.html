@@ -4,17 +4,25 @@
 	<title> Chentoocool </title>
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.css">
-	<link rel="stylesheet" href="css/app.css">
 	<link rel="stylesheet" href="css/c3.min.css">
+	<link rel="stylesheet" href="css/app.css">
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/c3.min.js"></script>
 	<script src="js/d3.min.js"></script>
 	
 </head>
-<div ng-view></div>
 <body class="container-fluid">
-	<div ng-controller="VCtrl">
+	<div class="landingImageContainer">
+		<img id="landingImage"src="/img/landingImage.jpg" alt="">
+	</div>
+	<div class="landing row">
+		<div id="landing-text" class="col-lg-12 text-center">CHENTOOCOOL</div>
+	</div>
+	<div id="app" ng-controller="VCtrl">
+		<div class="landing row">
+			
+		</div>
 		<div id="mapdiv" class="row">
 			<div id="map" class="col-lg-8">
 				
@@ -27,8 +35,11 @@
 			</div>
 		</div>
 		<div class="row" id="linegraphdiv">
-			<div id="linegraphs" class="col-lg-11">
+			<div id="linegraphs" class="col-lg-8">
 
+			</div>
+			<div id="text" class="col-lg-4">
+				
 			</div>
 		</div>
 	</div>
@@ -42,7 +53,10 @@
 	<script src="./app/components/visualizations/VisualizationService.js"></script>
 	<script src="./app/app.routes.js"></script>
 	<script>
-	
+	$('.landingImageContainer').height($(window).height());
+	$('.landingImageContainer').width($(window).width());
+	$('.landing').height($(window).height());
+	$('.landing').width($(window).width());
 	$('#map').height(function() {
 		return $(window).height() * 0.7;
 	});
@@ -50,6 +64,12 @@
 		return $(window).height() * 0.7;
 	});
 	$('#linegraphdiv').height(function() {
+		return $(window).height() * 0.3;
+	});
+	$('#linegraphs').height(function() {
+		return $(window).height() * 0.3;
+	});
+	$('#text').height(function() {
 		return $(window).height() * 0.3;
 	});
 	  </script>
