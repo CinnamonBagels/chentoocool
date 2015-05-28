@@ -1,12 +1,16 @@
 angular.module('app')
 .factory('VService', ['$http', function($http) {
 	var vservice = {};
-	vservice.getSoldForLoss = function() {
-		return $http.get('/soldForLoss');
+	vservice.getSoldForLoss = function(zip) {
+		return $http.get('/soldForLoss', {
+			zip : zip
+		});
 	}
 
-	vservice.getSoldForGain = function() {
-		return $http.get('/soldForGain');
+	vservice.getSoldForGain = function(zip) {
+		return $http.get('/soldForGain', {
+			zip : zip
+		});
 	}
 
 	vservice.getMedianList = function(zip) {
@@ -21,12 +25,16 @@ angular.module('app')
 		});
 	}
 
-	vservice.getIncreasingValues = function() {
-		return $http.get('/increasingValues');
+	vservice.getIncreasingValues = function(zip) {
+		return $http.get('/increasingValues', {
+			zip : zip
+		});
 	}
 
-	vservice.getDecreasingValues = function() {
-		return $http.get('/decreasingValues');
+	vservice.getDecreasingValues = function(zip) {
+		return $http.get('/decreasingValues', {
+			zip : zip
+		});
 	}
 
 	vservice.getAllData = function() {
@@ -39,8 +47,10 @@ angular.module('app')
 		});
 	}
 
-	vservice.getHighestAndLowest = function() {
-		return $http.get('/highestandlowest');
+	vservice.getHighestAndLowest = function(zip) {
+		return $http.get('/highestandlowest', {
+			zip : zip
+		});
 	}
 
 	return vservice;
