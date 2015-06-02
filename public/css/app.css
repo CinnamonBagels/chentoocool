@@ -3,6 +3,33 @@
 	height: 300px;
 	width: 500px;
 }
+.barchartloading, .linechartloading, #lineprogress, #barprogress {
+  z-index: 500;
+  position: absolute;
+}
+
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
 
 .btn-xl {
     padding: 18px 28px;
@@ -50,7 +77,7 @@ div#spinner
 }
 
 .d3-tip {
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: rgba(0, 0, 0, 0.4);
 	padding-bottom : 3px;
 	padding-top : 3px;
 	padding-left : 3px;
@@ -71,10 +98,11 @@ p.tip {
 }
 
 .bar {
-    background-color: steelblue;
+    /*background-color: steelblue;*/
     color: white;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 2px;
 }
 
 .chart {
@@ -141,4 +169,41 @@ body {
 
 .axis {
   font: 10px sans-serif;
+}
+
+.background {
+    fill: #FFFFFF;
+    fill-opacity: 0.01;
+}
+
+.component {
+    fill: #e1e1e1;
+}
+
+.component .label {
+    font-family: Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+    fill: #0000FF;
+}
+
+.arc {
+    stroke-weight:0.1;
+    fill: #4e8fff;
+}
+
+
+.arc2 {
+    stroke-weight:0.1;
+    fill: #3660b0;
+}
+
+
+.label {
+    font-family:  Myriad, "Helvetic Neue", Helvetica, Arial;
+    text-anchor: middle;
+}
+
+.radial-svg {
+    display: block;
+    margin-left: 20px;
 }

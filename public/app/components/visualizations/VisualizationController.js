@@ -33,17 +33,14 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 	    map.data.addListener('click', function(event) {
 	    	var address;
 	    	var zip;
-	    	console.log(event.latLng)
 	    	geocoder.geocode({ 
 	    		location : {
 		    		lat : event.latLng.lat(), 
 		    		lng : event.latLng.lng() 
 	    		}
 	    	}, function(data, status) {
-	    		console.log(status);
 	    		if(status === 'OK') {
 		    		address = data[0].address_components;
-		    		console.log(address);
 		    		zip = address[address.length - 2].long_name;
 		    		if(isNaN(zip)) {
 		    			zip = address[address.length - 1].long_name;
@@ -64,26 +61,23 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 	    		}
 	    	});
 	    });
-
+	    var marker;
 	    map.data.addListener('mouseover', function(event) {
 	    	var point = event.latLng;
 	    	var name = event.feature.getProperty('NAME');
-	    	var marker = new google.maps.Marker({
-	    		position : point,
-	    		title : name
-	    	});
-	    	infowindow = new google.maps.InfoWindow({
-	    		content : name
-	    	});
-
-	    	infowindow.open(map, marker);
-	    	console.log(event.feature.getProperty('NAME'));
-	    	map.data.revertStyle();
+	    	if(!infowindow) {
+		    	infowindow = new google.maps.InfoWindow({
+		    		content : name,
+		    		position : point
+		    	});
+	    		infowindow.open(map);
+	    	}
 	    	map.data.overrideStyle(event.feature, { strokeWeight : 3 });
 
 	    });
 	    map.data.addListener('mouseout', function(event) {
-	    	infowindow.close();
+	    	infowindow.setPosition(event.latLng);
+	    	infowindow.setContent(event.feature.getProperty('NAME'));
 	    	map.data.revertStyle();
 	    });
 	  }
@@ -91,16 +85,24 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 	  google.maps.event.addDomListener(window, 'load', initialize);
 
 	function loadBarChart(zip) {
+		var start = new Date().getTime();
 		VService.getMedianRelation(zip).success(function(data, status) {
-			console.log('bar', data);
-			Barchart.loadChart(data);
+			//console.log('bar', data);
+			Barchart.loadChart(data, function() {
+				var end = new Date().getTime() - start;
+				console.log(end);
+			});
 		});
 	}
 
 	function loadLineGraph(zip) {
+		var start = new Date().getTime();
 		VService.getSoldForGain(zip).success(function(data, status) {
-			console.log('line', data);
-			Linechart.loadChart(data);
+			//console.log('line', data);
+			Linechart.loadChart(data, function() {
+				var end = new Date().getTime() - start;
+				console.log(end);
+			});
 		});
 	}
 
@@ -111,6 +113,9 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 			$scope.highestList = data.highestList;
 			$scope.lowestSale = data.lowestSale;
 			$scope.highestSale = data.highestSale;
+			Minmax.generateData(data, function() {
+				
+			})
 		});
 	}
 }]);

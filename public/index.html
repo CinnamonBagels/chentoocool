@@ -12,6 +12,7 @@
 	<script src="js/c3.min.js"></script>
 	<script src="js/d3.min.js"></script>
 	<script src="js/d3.slider.js"></script>
+	<script src="js/d3.tip.js"></script>
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDmPJAvGOGWaZjaEx8Xha6HguOMyj-Xi6w"></script>
 	<script src="./app/angular.js"></script>
@@ -24,6 +25,7 @@
 	<script src="./app/components/visualizations/VisualizationController.js"></script>
 	<script src="./app/components/visualizations/VisualizationService.js"></script>
 	<script src="./app/app.routes.js"></script>
+	<script src="./js/d3.radial.js"></script>
 
 </head>
 <body class="container-fluid">
@@ -54,34 +56,40 @@
 					
 				</div>
 				<div id="barchartsdiv" class="col-lg-8 col-md-8">
-					<div class="row" id="barcharts">
-						
-						<div class="slider">
+					<!-- <div class="progress" id="barprogresscontainer">
+						<div id="barprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
 							
 						</div>
+					</div> -->
+					<div class="row" id="barcharts">
+						
 					</div>
 				</div>
 			</div>
 			<div class="row" id="linegraphdiv">
 				<div id="linegraphs" class="col-lg-8 col-md-8">
-
+					<!-- <div class="row" class="linechartloading">
+						<div class="col-lg-12 col-md-12">
+							<div>
+								<div class="col-lg-12 col-md-12">
+									<div class="progress" id="lineprogresscontainer">
+										<div id="lineprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div> -->
 				</div>
 				<div id="text" class="col-lg-4 col-md-4">
-					<div class="row">
-						<div class="col-lg-6 col-md-6" ng-cloak>
-							Median List $
+					<div class="row text-center">
+						<div class="col-lg-6 col-md-6" id="highsale">
+							
 						</div>
-						<div class="col-lg-6 col-md-6" ng-cloak>
-							Median Sale $
+						<div class="col-lg-6 col-md-6" id="lowsale">
+							
 						</div>
-					</div>
-					<div class="row">
-						<div ng-model="highestList" class="col-lg-6 col-md-6" ng-cloak>{{highestList}}</div>
-						<div ng-model="highestSale" class="col-lg-6 col-md-6" ng-cloak>{{highestSale}}</div>
-					</div>
-					<div class="row">
-						<div ng-model="lowestList" class="col-lg-6 col-md-6" ng-cloak>{{lowestList}}</div>
-						<div ng-model="lowestSale" class="col-lg-6 col-md-6" ng-cloak>{{lowestSale}}</div>
 					</div>
 				</div>
 			</div>
@@ -99,20 +107,30 @@
 	$('.landing').height($(window).height());
 	$('.landing').width($(window).width());
 	$('#map').height(function() {
-		return $(window).height() * 0.5;
+		return $(window).height() * 0.6;
 	});
 	$('#barchartsdiv').height(function() {
-		return $(window).height() * 0.5;
+		return $(window).height() * 0.6;
 	});
+
+	$('.barchartloading').height(function() {
+		return $(window).height() * 0.6;
+	});
+
+	$('.linechartloading').height(function() {
+		return $(window).height() * 0.4;
+	});
+
 	$('#linegraphdiv').height(function() {
-		return $(window).height() * 0.5;
+		return $(window).height() * 0.4;
 	});
 	$('#linegraphs').height(function() {
-		return $(window).height() * 0.5;
+		return $(window).height() * 0.4;
 	});
 	$('#text').height(function() {
-		return $(window).height() * 0.5;
+		return $(window).height() * 0.4;
 	});
 	  </script>
 </body>
 </html>
+

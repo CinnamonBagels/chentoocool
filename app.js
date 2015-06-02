@@ -132,22 +132,22 @@ app.get('/highestandlowest/:zip', function(req, res) {
 		if(err) return console.log(err);
 		client.query(listQuery(zip, true), function(err, lowlist){
 			if(err) return console.log(err);
-			if(lowlist.rows) {
+			if(lowlist.rows[0]) {
 				lowestList = lowlist.rows[0].listvalue === null ? 'Unknown' : lowlist.rows[0].listvalue;
 			}
 			client.query(listQuery(zip, false), function(err, highlist){
 				if(err) return console.log(err);
-				if(highlist.rows) {
+				if(highlist.rows[0]) {
 					highestList = highlist.rows[0].listvalue === null ? 'Unknown' : highlist.rows[0].listvalue;
 				}
 				client.query(salesQuery(zip, true), function(err, lowsale){
 					if(err) return console.log(err);
-					if(lowsale.rows) {
+					if(lowsale.rows[0]) {
 						lowestSale = lowsale.rows[0].listvalue === null ? 'Unknown' : lowsale.rows[0].listvalue;
 					}
 					client.query(salesQuery(zip, false), function(err, highsale){
 						if(err) return console.log(err);
-						if(highsale.rows) {
+						if(highsale.rows[0]) {
 							highestSale = highsale.rows[0].listvalue === null ? 'Unknown' : highsale.rows[0].listvalue;
 							res.send({
 								lowestList : lowestList,
@@ -173,11 +173,21 @@ app.get('/medianRelation/:zip', function(req, res) {
 		client.query(medianRelationQuery(zip), function(err, data) {
 			if(err) return console.log(err);
 			if(data.rows) {
-				var modData = data.rows.map(function(row) {
+				var modData = data.rows.map(function(row, index, array) {
 					var tempjson = row;
-					tempjson.listvalue = row.listvalue === null ? 0 : Math.floor(row.listvalue);
-					tempjson.salevalue = row.salevalue === null ? 0 : Math.floor(row.salevalue);
+					if(index !== 0 && row.salevalue === null) {
+						tempjson.salevalue = 0;
+					} else {
+						tempjson.salevalue = row.salevalue === null ? Math.floor(array[index - 1].salevalue) : Math.floor(row.salevalue);
+					}
+					tempjson.listvalue = row.listvalue === null ? Math.floor(array[index - 1].listvalue) : Math.floor(row.listvalue);
+					tempjson.values = [{
+						value : tempjson.listvalue
+					},{
+						value : tempjson.salevalue
+					}];
 					tempjson.date = row.month + '/' + row.year;
+					tempjson.max = tempjson.listvalue > tempjson.salevalue ? tempjson.listvalue : tempjson.salevalue;
 					return tempjson;
 				});
 
@@ -188,7 +198,9 @@ app.get('/medianRelation/:zip', function(req, res) {
 
 					return first.year - second.year;
 				});
-
+				modData.shift();
+				modData.shift();
+				modData.shift();
 				res.send(modData);
 			}
 
@@ -223,10 +235,8 @@ app.get('/soldForGain/:zip', function(req, res){
 			if(err) return console.log(err) 
 			if(data.rows) {
 				var mod = data.rows;
-				mod.forEach(function(d) {
-					if(d.Value === null) {
-						d.Value = 0;
-					}
+				mod.forEach(function(d, index, array) {
+					d.Value = d.Value === null ? Math.floor(array[index - 1].Value) : Math.floor(d.Value);
 				})
 				mod.sort(function(a, b) {
 					if(a.Year === b.Year) {

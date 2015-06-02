@@ -37,8 +37,8 @@ angular.module('app')
 
    var focus = svg.append('g')
    				.style('display', 'none');
-
-	linechartservice.loadChart = function(data) {
+	linechartservice.loadChart = function(data, callback) {
+		
 		data.forEach(function(d) {
 			d.date = parseDate(d.Month + '-' + d.Year);
 			d.Value = +d.Value;
@@ -64,13 +64,18 @@ angular.module('app')
 	      .attr("transform", "rotate(-90)")
 	      .attr("y", 6)
 	      .attr("dy", ".71em")
+	      .attr('dx', '-.71em')
 	      .style("text-anchor", "end")
 	      .text("% Sold for gain");
 
 	      svg.append('path')
 	      .datum(data)
+	      .transition()
+	      .duration(750)
 	      .attr('class', 'line')
-	      .attr('d', line);
+	      .attr('d', line)
+	      .transition()
+	      .duration(1000);
 
 	    focus.append('circle')
 	    	.attr('class', 'y')
@@ -151,13 +156,13 @@ angular.module('app')
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
-	              .text(d.Value);
+	              .text(d.Value + '%');
 
 	          focus.select("text.y2")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
-	              .text(d.Value);
+	              .text(d.Value + '%');
 
 	          focus.select("text.y3")
 	              .attr("transform",
@@ -182,7 +187,8 @@ angular.module('app')
 	                    "translate(" + width * -1 + "," +
 	                                   y(d.Value) + ")")
 	                         .attr("x2", width + width); 
-	    }                   
+	    }    
+	    callback();               
 	}
 	return linechartservice;
 })
