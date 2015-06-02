@@ -80,11 +80,23 @@ app.use(session({ secret: 'keyboard cat',
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
 
+function foreclosurequery(zip) {
+	var query = [
+	selectAllFrom,
+	foreclosure,
+	whereInSD,
+	'and "RegionName"=\'' + zip + '\'',
+	'and "Value" is not null',
+	'order by "Value" desc limit 1'].join(' ');
+
+	return query;
+}
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If
 //   the request is authenticated (typically via a persistent login session),
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
+var foreclosure = 'zillow_zip_homes_sold_as_foreclosures_ratio_all_homes_norm'
 var mlp = 'zillow_zip_median_listing_price_all_homes_norm';
 var msp = 'zillow_zip_median_sold_price_all_homes_norm';
 var iv = 'zillow_zip_pct_of_homes_increasing_in_values_all_homes_norm';
@@ -124,6 +136,22 @@ app.get('/medianListPrice/:zip', function(req, res) {
 		});
 	});
 });
+
+app.get('/foreclosureratio/:zip', function(req, res) {
+	var zip = req.params.zip;
+	pg.connect(conn, function(err, client, done) {
+		if(err) return console.log(err);
+
+		client.query(foreclosurequery(zip), function(err, highest) {
+			if(err) return console.log(err);
+			var temp = highest.rows[0];
+			if(highest.rows[0]) {
+				temp.Value = Math.floor(highest.rows[0].Value);
+				res.send(temp);
+			}
+		})
+	})
+})
 
 app.get('/highestandlowest/:zip', function(req, res) {
 	var zip = req.params.zip;

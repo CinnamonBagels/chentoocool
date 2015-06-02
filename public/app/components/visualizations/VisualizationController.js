@@ -54,6 +54,7 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 		    			loadBarChart(zip);
 		    			loadLineGraph(zip);
 		    			loadMinMax(zip);
+		    			loadForeclosure(zip);
 		    		}
 	    		} else {
 	    			//error
@@ -116,6 +117,24 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 			Minmax.generateData(data, function() {
 				
 			})
+		});
+	}
+
+	function loadForeclosure(zip) {
+		VService.getForeclosure(zip).success(function(data, status) {
+			console.log(data);
+			radialProgress(document.getElementById('foreclosure'))
+				.label('Homes Foreclosed')
+				.diameter(150)
+				.value(data.Value)
+				.render();
+
+			d3.selectAll('svg.radial-svg')
+			.attr('height', '150')
+			.attr('width', '150');
+
+			d3.selectAll('svg.radial-svg>g')
+			.attr('transform', 'translate(22, 0)');
 		});
 	}
 }]);

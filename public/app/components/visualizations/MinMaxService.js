@@ -16,21 +16,24 @@ angular.module('app')
 		lowcostpercent = Math.abs(lowcostpercent);
 		highcostpercent = Math.abs(highcostpercent);
 		highrad = radialProgress(document.getElementById('highsale'))
-			.label(highprofit ? 'LOSS on HIGHEST cost house' : 'PROFIT on HIGHEST cost house')
+			.label(highprofit ? 'LOSS on HIGHEST cost' : 'PROFIT on HIGHEST cost')
 			.diameter(150)
 			.value(highcostpercent)
 			.render();
 
 		lowrad = radialProgress(document.getElementById('lowsale'))
-			.label(highprofit ? 'LOSS on LOWEST cost house' : 'PROFIT on LOWEST cost house')
+			.label(highprofit ? 'LOSS on LOWEST cost' : 'PROFIT on LOWEST cost')
 			.diameter(150)
 			.value(lowcostpercent)
 			.render();
 		console.log(lowcostpercent);
 		callback();
 
+		d3.selectAll('svg.radial-svg')
+			.attr('height', '150')
+			.attr('width', '150');
 		d3.selectAll('svg.radial-svg>g')
-			.attr('transform', 'translate(22, 35)');
+			.attr('transform', 'translate(22, 0)');
 	}
 
 	return minmaxservice;

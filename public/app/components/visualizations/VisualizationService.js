@@ -37,5 +37,9 @@ angular.module('app')
 		return $http.get('/highestandlowest/' + zip);
 	}
 
+	vservice.getForeclosure = function(zip) {
+		return $http.get('/foreclosureratio/' + zip);
+	}
+
 	return vservice;
 }]);
