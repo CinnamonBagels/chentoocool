@@ -8,6 +8,7 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 	      disableDoubleClickZoom : true,
 	      streetViewControl : false
 	    };
+	    var infowindow;
 	    var geocoder = new google.maps.Geocoder();
 	    var map = new google.maps.Map(document.getElementById('map'),
 	        mapOptions);
@@ -65,11 +66,24 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 	    });
 
 	    map.data.addListener('mouseover', function(event) {
+	    	var point = event.latLng;
+	    	var name = event.feature.getProperty('NAME');
+	    	var marker = new google.maps.Marker({
+	    		position : point,
+	    		title : name
+	    	});
+	    	infowindow = new google.maps.InfoWindow({
+	    		content : name
+	    	});
+
+	    	infowindow.open(map, marker);
+	    	console.log(event.feature.getProperty('NAME'));
 	    	map.data.revertStyle();
 	    	map.data.overrideStyle(event.feature, { strokeWeight : 3 });
-	    });
 
+	    });
 	    map.data.addListener('mouseout', function(event) {
+	    	infowindow.close();
 	    	map.data.revertStyle();
 	    });
 	  }

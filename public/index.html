@@ -6,57 +6,12 @@
 	<link rel="stylesheet" href="css/bootstrap-theme.css">
 	<link rel="stylesheet" href="css/c3.min.css">
 	<link rel="stylesheet" href="css/app.css">
+	<link rel="stylesheet" href="css/d3.slider.css">
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/c3.min.js"></script>
 	<script src="js/d3.min.js"></script>
-	
-</head>
-<body class="container-fluid">
-	<div class="landingImageContainer">
-		<img id="landingImage"src="/img/landingImage.jpg" alt="">
-	</div>
-	<div class="landing row">
-		<div id="landing-text" class="col-lg-12 text-center">CHENTOOCOOL</div>
-	</div>
-	<div id="app" ng-controller="VCtrl">
-		<div class="landing row">
-			
-		</div>
-		<div id="mapdiv" class="row">
-			<div id="map" class="col-lg-8 col-md-8">
-				
-			</div>
-			<div id="barchartsdiv" class="col-lg-4 col-md-4">
-				<div class="row" id="barcharts">
-
-				</div>	
-			</div>
-		</div>
-		<div class="row" id="linegraphdiv">
-			<div id="linegraphs" class="col-lg-8 col-md-8">
-
-			</div>
-			<div id="text" class="col-lg-4 col-md-4">
-				<div class="row">
-					<div class="col-lg-6 col-md-6">
-						Median List $
-					</div>
-					<div class="col-lg-6 col-md-6">
-						Median Sale $
-					</div>
-				</div>
-				<div class="row">
-					<div ng-model="highestList" class="col-lg-6 col-md-6">{{highestList}}</div>
-					<div ng-model="lowestList" class="col-lg-6 col-md-6">{{lowestList}}</div>
-				</div>
-				<div class="row">
-					<div ng-model="highestSale" class="col-lg-6 col-md-6">{{highestSale}}</div>
-					<div ng-model="lowestSale" class="col-lg-6 col-md-6">{{lowestSale}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<script src="js/d3.slider.js"></script>
 	<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDmPJAvGOGWaZjaEx8Xha6HguOMyj-Xi6w"></script>
 	<script src="./app/angular.js"></script>
@@ -69,25 +24,95 @@
 	<script src="./app/components/visualizations/VisualizationController.js"></script>
 	<script src="./app/components/visualizations/VisualizationService.js"></script>
 	<script src="./app/app.routes.js"></script>
+
+</head>
+<body class="container-fluid">
+	<div class="landingImageContainer">
+		<img id="landingImage"src="/img/landingImage.jpg" alt="">
+	</div>
+	<div class="landing row">
+	<div class="col-lg-12">
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div id="landing-text" class="col-lg-12 text-center">CHENTOOCOOL</div>
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4">
+				<a id="viewVis" class="btn btn-default btn-ghost btn-xl btn-block">VIEW VISUALIZATION</a>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div id="app" ng-controller="VCtrl">
+		<div class="landing row">
+			
+		</div>
+		<div id="visualization">
+			<div id="mapdiv" class="row">
+				<div id="map" class="col-lg-4 col-md-4">
+					
+				</div>
+				<div id="barchartsdiv" class="col-lg-8 col-md-8">
+					<div class="row" id="barcharts">
+						
+						<div class="slider">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" id="linegraphdiv">
+				<div id="linegraphs" class="col-lg-8 col-md-8">
+
+				</div>
+				<div id="text" class="col-lg-4 col-md-4">
+					<div class="row">
+						<div class="col-lg-6 col-md-6" ng-cloak>
+							Median List $
+						</div>
+						<div class="col-lg-6 col-md-6" ng-cloak>
+							Median Sale $
+						</div>
+					</div>
+					<div class="row">
+						<div ng-model="highestList" class="col-lg-6 col-md-6" ng-cloak>{{highestList}}</div>
+						<div ng-model="highestSale" class="col-lg-6 col-md-6" ng-cloak>{{highestSale}}</div>
+					</div>
+					<div class="row">
+						<div ng-model="lowestList" class="col-lg-6 col-md-6" ng-cloak>{{lowestList}}</div>
+						<div ng-model="lowestSale" class="col-lg-6 col-md-6" ng-cloak>{{lowestSale}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script>
+
+	$("#viewVis").click(function() {
+	    $('html, body').animate({
+	        scrollTop: $("#visualization").offset().top
+	    }, 2000);
+	});
 	$('.landingImageContainer').height($(window).height());
 	$('.landingImageContainer').width($(window).width());
 	$('.landing').height($(window).height());
 	$('.landing').width($(window).width());
 	$('#map').height(function() {
-		return $(window).height() * 0.7;
+		return $(window).height() * 0.5;
 	});
 	$('#barchartsdiv').height(function() {
-		return $(window).height() * 0.7;
+		return $(window).height() * 0.5;
 	});
 	$('#linegraphdiv').height(function() {
-		return $(window).height() * 0.3;
+		return $(window).height() * 0.5;
 	});
 	$('#linegraphs').height(function() {
-		return $(window).height() * 0.3;
+		return $(window).height() * 0.5;
 	});
 	$('#text').height(function() {
-		return $(window).height() * 0.3;
+		return $(window).height() * 0.5;
 	});
 	  </script>
 </body>
+</html>

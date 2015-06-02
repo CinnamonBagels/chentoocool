@@ -3,11 +3,12 @@ angular.module('app')
 	var barchartservice = {};
 	var barcharts = d3.select('#barcharts');
 	var linegraph = d3.select('#linegraphs');
+	var slider = d3.select('.slider');
 	
 	var margin = {
 		top : 20,
 		right : 20,
-		bottom : 80,
+		bottom : 160,
 		left: 80
 	}
 	var barchartHeight = $('#barchartsdiv').height() - margin.top - margin.bottom;
@@ -78,6 +79,9 @@ angular.module('app')
 			.attr('height', function(d) {
 				return barchartHeight - y(d.listvalue);
 			});
+		barcharts.append('div')
+		.attr('class', 'slider')
+		.call(d3.slider());
 	}
 
 	return barchartservice;

@@ -4,6 +4,33 @@
 	width: 500px;
 }
 
+.btn-xl {
+    padding: 18px 28px;
+    font-size: 22px;
+    border-radius: 8px;
+}
+
+.btn-default {
+  border-color: white;
+}
+
+.btn-default:hover {
+  background-color: white;
+}
+.btn-ghost{
+  font-family: helvetica;
+  letter-spacing: 5px;
+  background: transparent;
+  color: #FFFFFF;
+
+  /* CSS Transition */
+  -webkit-transition: background .2s ease-in-out, border .2s ease-in-out;
+  -moz-transition: background .2s ease-in-out, border .2s ease-in-out;
+  -ms-transition: background .2s ease-in-out, border .2s ease-in-out;
+  -o-transition: background .2s ease-in-out, border .2s ease-in-out;
+  transition: background .2s ease-in-out, border .2s ease-in-out;
+}
+
 div#spinner
 {
     display: none;
@@ -40,7 +67,6 @@ p.tip {
 }
 
 #linegraphs {
-    border-top: 1px solid black;
     margin-top: -1px;
 }
 
@@ -55,7 +81,9 @@ p.tip {
     margin-top: 5px;
     margin-bottom: 5px;
 }
-
+body, html {
+  height: 100%;
+}
 body {
     font-family: Helvetica, Arial, sans-serif;
 }
@@ -64,7 +92,7 @@ body {
 }
 
 #landing-text {
-    margin-top: 15%;
+    margin-top: 12%;
     font-size: 7em;
     color: white;
     letter-spacing: 15px;
