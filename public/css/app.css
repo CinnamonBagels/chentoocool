@@ -1,3 +1,8 @@
+@font-face{
+  font-family:asap;
+  src:url(../../fonts/Asap.otf);
+}
+
 .box {
 	border : 1px solid black;
 	height: 300px;
@@ -9,20 +14,36 @@
 }
 
 
-.d3-tip {
+/*.d3-tip {
   line-height: 1;
   font-weight: bold;
   padding: 12px;
   background: rgba(0, 0, 0, 0.8);
-  color: #fff;
   border-radius: 2px;
+}*/
+
+
+.d3-tip {
+  background-color: #ffffff;
+  padding-bottom : 3px;
+  padding-top : 3px;
+  padding-left : 3px;
+  padding-right : 3px;
+  border: 1px solid grey;
+   font-size: 25px;
+  font-family:asap;
 }
 
+p.tip {
+  color: black;
+  font-size: 25px;
+  font-family:asap;
+}
 /* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
   box-sizing: border-box;
   display: inline;
-  font-size: 10px;
+  font-size: 25px;
   width: 100%;
   line-height: 1;
   color: rgba(0, 0, 0, 0.8);
@@ -32,9 +53,11 @@
 }
 
 .btn-xl {
+    margin-right:auto;
+    margin-left:auto;
     padding: 18px 28px;
     font-size: 22px;
-    border-radius: 8px;
+    width:400px;
 }
 
 .btn-default {
@@ -43,6 +66,7 @@
 
 .btn-default:hover {
   background-color: white;
+  border-color:white;
 }
 .btn-ghost{
   font-family: helvetica;
@@ -76,19 +100,6 @@ div#spinner
     overflow: auto;
 }
 
-.d3-tip {
-	background-color: rgba(0, 0, 0, 0.4);
-	padding-bottom : 3px;
-	padding-top : 3px;
-	padding-left : 3px;
-	padding-right : 3px;
-	border: 1px solid black;
-}
-
-p.tip {
-	color: white;
-	font-size: 1.25em;
-}
 
 #map {
 }
@@ -150,7 +161,10 @@ body {
 }
 
 .x.axis path {
-  display: none;
+  /*display: none;*/
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
 
 .line {
@@ -161,25 +175,33 @@ body {
 
 .bar {
   fill: steelblue;
+  opacity:.6;
 }
 
 .bar:hover {
   fill: brown;
+  opacity:.6;
 }
 
+
 .axis {
-  font: 20px sans-serif;
+  font-size: 20px;
+  font-family:asap;
 }
 
 #description{
+  text-align:center;
   margin-left:20%;
   margin-right:20%;
+  margin-bottom:4%;
+  margin-top:15%;
   color:white;
-  font-size:20px;
+  font-size:27px;
+  font-family:asap;
 }
 
 .background {
-    fill: #FFFFFF;
+    fill: #000000;
     fill-opacity: 0.01;
 }
 
@@ -213,4 +235,10 @@ body {
 .radial-svg {
     display: block;
     margin-left: 20px;
+}
+
+#linegraph{
+  border-radius: 5px;
+  border: 2px solid #4D4D94;
+  padding:5px;
 }
