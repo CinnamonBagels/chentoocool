@@ -2,6 +2,7 @@ angular.module('app')
 .factory('Linechart', function() {
 	var linechartservice = {};
 	var chart;
+
 	linechartservice.loadChart = function(data, callback) {
 		if(chart) {
 
@@ -22,7 +23,7 @@ angular.module('app')
 			})
 		}
 	}
-	// var margin = {top: 20, right: 100, bottom: 30, left: 50},
+	// var margin = {top: 50, right: 100, bottom: 50, left: 50},
  //    width = $('#linegraphs').width() - margin.left - margin.right,
  //    height = $('#linegraphdiv').height() - margin.top - margin.bottom;
 

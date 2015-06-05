@@ -1,13 +1,18 @@
+@font-face{
+  font-family:asap;
+  src:url(../../fonts/Asap.otf);
+}
+
 .d3-slider {
     position: relative;
-    font-family: Verdana,Arial,sans-serif;
-    font-size: 1.1em;
+    font-family: asap;
+    font-size: 15px;
     border: 1px solid #aaaaaa;
     z-index: 2;
 }
 
 .d3-slider-horizontal {
-    height: .8em;
+    height: 1.5em;
 }  
 
 .d3-slider-range {
@@ -33,8 +38,8 @@
 
 .d3-slider-handle {
     position: absolute;
-    width: 1.2em;
-    height: 1.2em;
+    width: 2em;
+    height: 2em;
     border: 1px solid #d3d3d3;
     border-radius: 4px;
     background: #eee;
@@ -57,7 +62,7 @@
 }
 
 .d3-slider-axis-bottom {
-    top: .8em;
+    top: 1.4em; /*ticks*/
 }
 
 .d3-slider-axis-right {
@@ -76,7 +81,8 @@
 }
 
 .d3-slider-axis text {
-    font-size: 11px;
+    font-size: 20px;
+    font-family:asap;
 }
 
 .d3-slider-vertical .d3-slider-handle {

@@ -9,7 +9,7 @@ angular.module('app')
 		top : 80,
 		right : 20,
 		bottom : 80,
-		left: 80
+		left: 100
 	}
 	var barchartHeight = $('#barchartsdiv').height() - margin.top - margin.bottom;
 	var barchartWidth = $('#barchartsdiv').width() - margin.left - margin.right;
