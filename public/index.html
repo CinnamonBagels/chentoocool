@@ -24,39 +24,39 @@
 	<script src="./app/components/visualizations/MinMaxService.js"></script>
 	<script src="./app/components/visualizations/VisualizationController.js"></script>
 	<script src="./app/components/visualizations/VisualizationService.js"></script>
+	<script src="./app/components/visualizations/ModalController.js"></script>
+	<script src="http://rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.min.js"></script>
+	<script src="./js/ui-bootstrap-tpls.js"></script>
 	<script src="./app/app.routes.js"></script>
 	<script src="./js/d3.radial.js"></script>
 
 </head>
 <body class="container-fluid">
-	<div class="landingImageContainer">
-		<img id="landingImage"src="/img/landingImage.jpg" alt="">
-	</div>
-	<div class="landing row">
-	<div class="col-lg-12">
-		<div class="row">
-			<div class="col-lg-12 col-md-12">
-				<div id="landing-text" class="col-lg-12 text-center">CHENTOOCOOL</div>
-			</div>
-			<div id="description"><i><center>This website takes housing data collected from Zillow and uses interactive visualizations to convey the profitability of different neighborhoods in San Diego. It allows users to explore and compare the collective list price, sale price, and profitability of all houses within a specific neighborhood over a period of time.</p></i></div>
-		</div>
-		<div class="row text-center">
-			<div class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4">
-				<a id="viewVis" class="btn btn-default btn-ghost btn-xl btn-block">VIEW VISUALIZATION</a>
-			</div>
-		</div>
-	</div>
-	</div>
 	<div id="app" ng-controller="VCtrl">
+		<div class="landingImageContainer">
+			<img id="landingImage"src="/img/landingImage.jpg" alt="">
+		</div>
+		<div class="landing row">
+		<div class="col-lg-12">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div id="landing-text" class="col-lg-12 text-center">CHENTOOCOOL</div>
+				</div>
+				<div id="description"><i><center>This website takes housing data collected from Zillow and uses interactive visualizations to convey the profitability of different neighborhoods in San Diego. It allows users to explore and compare the collective list price, sale price, and profitability of all houses within a specific neighborhood over a period of time.</p></i></div>
+			</div>
+			<div class="row text-center">
+				<div class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4">
+					<a id="viewVis" ng-click="openModal()" class="btn btn-default btn-ghost btn-xl btn-block">VIEW VISUALIZATION</a>
+				</div>
+			</div>
+		</div>
+		</div>
 		<div class="landing row">
 			
 		</div>
 		<div id="visualization">
 			<div id="mapdiv" class="row">
-				<div id="map" class="col-lg-4 col-md-4">
-					
-				</div>
-				<div id="barchartsdiv" class="col-lg-8 col-md-8">
+				<div id="barchartsdiv" class="col-lg-12 col-md-12">
 					<!-- <div class="progress" id="barprogresscontainer">
 						<div id="barprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
 							
@@ -104,18 +104,15 @@
 	</div>
 	<script>
 
-	$("#viewVis").click(function() {
-	    $('html, body').animate({
-	        scrollTop: $("#visualization").offset().top
-	    }, 2000);
-	});
+	// $("#viewVis").click(function() {
+	//     $('html, body').animate({
+	//         scrollTop: $("#visualization").offset().top
+	//     }, 2000);
+	// });
 	$('.landingImageContainer').height($(window).height());
 	$('.landingImageContainer').width($(window).width());
 	$('.landing').height($(window).height());
 	$('.landing').width($(window).width());
-	$('#map').height(function() {
-		return $(window).height() * 0.6;
-	});
 	$('#barchartsdiv').height(function() {
 		return $(window).height() * 0.6;
 	});
@@ -137,6 +134,29 @@
 	$('#text').height(function() {
 		return $(window).height() * 0.4;
 	});
+	  </script>
+	  <script type="text/ng-template" id="mapModal.html">
+		  <div class="modal-header">
+		     <h3 class="modal-title">Choose stuff here</h3>
+		  </div>
+		  <div class="modal-body">
+		     <div class="row">
+				<div class="col-lg-6 col-md-6">
+					<map ui-map="map" center="32.715738, -117.161084" zoom="10" disableDoubleClickZoom="true" streetViewControl="false" id="map">
+				</div>
+	     		<div id="selected-regions" class="col-lg-6 col-md-6">
+	     			<div class="row" ng-repeat="region in regions">
+	     				<div class="col-lg-12 col-md-12">
+	     					<p>Region: {{region.name}}</p>
+	     					<p>Zipcode: {{region.zip}}</p>
+	     				</div>
+	     			</div>
+	     		</div>
+		     </div>
+		  </div>
+		  <div class="modal-footer">
+		     <button class="btn btn-primary" ng-click="close()">OK</button>
+		  </div>
 	  </script>
 </body>
 </html>

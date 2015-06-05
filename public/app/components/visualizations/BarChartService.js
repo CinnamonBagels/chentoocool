@@ -22,6 +22,8 @@ angular.module('app')
 
 	var y = d3.scale.linear().range([barchartHeight, 0]);
 
+
+
 	var xAxis = d3.svg.axis()
 				.scale(x)
 				.orient('bottom');
@@ -36,7 +38,7 @@ angular.module('app')
 				.attr('height', barchartHeight + margin.bottom + margin.top)
 				.append('g')
 				.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
+	var color = d3.scale.ordinal().range(['#800000', '#00ff00'])
 	var tip = d3.tip()
 		.attr('class', 'd3-tip')
 		.offset([-10, 0])
@@ -52,10 +54,40 @@ angular.module('app')
 		if(!data[0]) {
 			return callback();
 		}
+
+		var max = d3.max(data, function(d) {
+			return d.listvalue > d.salevalue ? d.listvalue : d.salevalue;
+		});
+
+		color.domain(d3.keys(data[0].values));
+
+		data.forEach(function(d) {
+			var y0 = 0;
+			console.log(d);
+			d.colorvalues = color.domain().map(function(name, index, array) {
+				var y0 = 0;
+				if(d.values.listvalue > d.values.salevalue) {
+					return {
+						value : index === 1 ? d.values.salevalue : d.values.listvalue,
+						y0 : y0,
+						y1 : y0 += index === 1 ? d.values.listvalue - d.values.salevalue : d.values.listvalue
+					}
+				} else {
+					return {
+						value : index === 1 ? d.values.salevalue : d.values.listvalue,
+						y0 : y0,
+						y1 : y0 += index === 1 ? d.values.salevalue - d.values.listvalue : d.values.salevalue
+					}
+				}
+			});
+
+			d.total = max;
+		});
 		var yearspan = data[data.length - 1].year - data[0].year;
 		console.log(data);
 		alldata = data;
 		currentdata = alldata.slice(0, 12);
+
 		barcharts.append('div')
 		.style('width', sliderWidth + 'px')
 		.style('margin-left', margin.left + 'px')
@@ -63,6 +95,7 @@ angular.module('app')
 		.call(d3.slider().axis(d3.svg.axis().ticks(yearspan)).min(alldata[0].year).max(alldata[alldata.length - 1].year).step(1).on('slide', function(event, value) {
 			updateBars(value);
 		}));
+
 		x.domain(currentdata.map(function(d) {
 			return parseDate(d.month);
 		}));
@@ -91,25 +124,51 @@ angular.module('app')
 			.style('text-anchor', 'end')
 			.text('List Value');
 
-		svg.selectAll('.bar')
-			.data(currentdata)
-			.enter().append('rect')
-			.attr('class', 'bar')
-			.attr('x', function(d) {
-				return x(parseDate(d.month));
-			})
-			.attr('width', x.rangeBand())
-			.attr('y', function(d) {
-				return y(d.listvalue);
-			})
-			.attr('height', function(d) {
-				return barchartHeight - y(d.listvalue);
-			})
-			.on('mouseover', tip.show)
-			.on('mouseout', tip.hide);
+		var whatever = svg.selectAll('.graph')
+			.data(data)
+			.enter().append('g')
+			.attr('class', 'g')
+			.attr('transform', function(d) {
+				return 'translate(' + x(parseDate(d.month)) + ',' + '0)';
+			});
 
-		svg.selectAll('rect')
-		.style('fill', '#800000');
+		whatever.selectAll('rect')
+		.data(function(d) {
+			return d.colorvalues;
+		})
+		.enter().append('rect')
+		.attr('width', x.rangeBand())
+		.attr('y', function(d) {
+			//console.log(d);
+			return y(d.y1);
+		})
+		.attr('height', function(d) {
+			return y(d.y0) - y(d.y1);
+		})
+		.style('fill', function(d) {
+			return color(d.value);
+		});
+
+		// svg.selectAll('.bar')
+		// 	.data(currentdata)
+		// 	.enter().append('rect')
+		// 	.attr('class', 'bar')
+		// 	.attr('x', function(d) {
+		// 		return x(parseDate(d.month));
+		// 	})
+		// 	.attr('width', x.rangeBand())
+		// 	.attr('y', function(d) {
+		// 		return y(d.listvalue);
+		// 	})
+		// 	.attr('height', function(d) {
+		// 		return barchartHeight - y(d.listvalue);
+		// 	})
+		// 	.on('mouseover', tip.show)
+		// 	.on('mouseout', tip.hide);
+
+		// svg.selectAll('rect')
+		// .style('fill', );
+
 		callback();
 	}
 

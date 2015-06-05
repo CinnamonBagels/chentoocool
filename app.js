@@ -209,11 +209,10 @@ app.get('/medianRelation/:zip', function(req, res) {
 						tempjson.salevalue = row.salevalue === null ? Math.floor(array[index - 1].salevalue) : Math.floor(row.salevalue);
 					}
 					tempjson.listvalue = row.listvalue === null ? Math.floor(array[index - 1].listvalue) : Math.floor(row.listvalue);
-					tempjson.values = [{
-						value : tempjson.listvalue
-					},{
-						value : tempjson.salevalue
-					}];
+					tempjson.values = {
+						listvalue : tempjson.listvalue,
+						salevalue : tempjson.salevalue
+					};
 					tempjson.date = row.month + '/' + row.year;
 					tempjson.max = tempjson.listvalue > tempjson.salevalue ? tempjson.listvalue : tempjson.salevalue;
 					return tempjson;

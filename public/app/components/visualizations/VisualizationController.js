@@ -1,21 +1,13 @@
 angular.module('app')
-.controller('VCtrl', ['$scope', 'VService', 'Barchart', 'Linechart', 'Minmax',
-function($scope, VService, Barchart, Linechart, Minmax) {
-	function initialize() {
-	    var mapOptions = {
-	      zoom: 10,
-	      center: {lat: 32.715738, lng: -117.161084},
-	      disableDoubleClickZoom : true,
-	      streetViewControl : false
-	    };
-	    var infowindow;
-	    var geocoder = new google.maps.Geocoder();
-	    var map = new google.maps.Map(document.getElementById('map'),
-	        mapOptions);
-
-	    map.data.loadGeoJson('./zillowneighborhoodsca.geojson');
-
-	    map.data.setStyle(function(feature) {
+.controller('VCtrl', ['$scope', 'VService', 'Barchart', 'Linechart', 'Minmax', '$modal',
+function($scope, VService, Barchart, Linechart, Minmax, $modal) {
+	var regions = $scope.regions = [];
+	$scope.$on('mapInitialized', function(event, map) {
+		console.log('huh?');
+		console.log(map);
+		map.data.loadGeoJson('./zillowneighborhoodsca.geojson');
+		var geocoder = new google.maps.Geocoder();
+		map.data.setStyle(function(feature) {
 	    	var color;
 
 	    	if(!feature.getProperty('isColorful')) {
@@ -30,61 +22,79 @@ function($scope, VService, Barchart, Linechart, Minmax) {
 	    		strokeWeight : 1
 	    	};
 	    });
-	    map.data.addListener('click', function(event) {
-	    	var address;
-	    	var zip;
-	    	geocoder.geocode({ 
-	    		location : {
-		    		lat : event.latLng.lat(), 
-		    		lng : event.latLng.lng() 
-	    		}
-	    	}, function(data, status) {
-	    		if(status === 'OK') {
-		    		address = data[0].address_components;
-		    		zip = address[address.length - 2].long_name;
-		    		if(isNaN(zip)) {
-		    			zip = address[address.length - 1].long_name;
-		    		}
+
+        map.data.addListener('click', function(event) {
+        	var address;
+        	var zip;
+        	geocoder.geocode({ 
+        		location : {
+    	    		lat : event.latLng.lat(), 
+    	    		lng : event.latLng.lng() 
+        		}
+        	}, function(data, status) {
+        		if(status === 'OK') {
+    	    		address = data[0].address_components;
+    	    		zip = address[address.length - 2].long_name;
+    	    		if(isNaN(zip)) {
+    	    			zip = address[address.length - 1].long_name;
+    	    		}
 
 
-		    		if(event.feature.getProperty('isColorful')) {
-		    			event.feature.setProperty('isColorful', false);
-		    		} else {
-		    			event.feature.setProperty('isColorful', true);
-		    			loadBarChart(zip);
-		    			loadLineGraph(zip);
-		    			loadMinMax(zip);
-		    			loadForeclosure(zip);
-		    		}
-	    		} else {
-	    			//error
-	    			//you are clicking too fast error.
-	    		}
-	    	});
-	    });
-	    var marker;
-	    map.data.addListener('mouseover', function(event) {
-	    	var point = event.latLng;
-	    	var name = event.feature.getProperty('NAME');
-	    	if(!infowindow) {
-		    	infowindow = new google.maps.InfoWindow({
-		    		content : name,
-		    		position : point
-		    	});
-	    		infowindow.open(map);
-	    	}
-	    	map.data.overrideStyle(event.feature, { strokeWeight : 3 });
+    	    		if(event.feature.getProperty('isColorful')) {
+    	    			event.feature.setProperty('isColorful', false);
+    	    			regions.forEach(function(region) {
 
-	    });
-	    map.data.addListener('mouseout', function(event) {
-	    	infowindow.setPosition(event.latLng);
-	    	infowindow.setContent(event.feature.getProperty('NAME'));
-	    	map.data.revertStyle();
-	    });
-	  }
+    	    			})
+    	    		} else {
+    	    			var exists = false;
+    	    			event.feature.setProperty('isColorful', true);
+    	    			regions.some(function(region) {
+    	    				if(event.feature.getProperty('NAME') === region.name) {
+    	    					exists = true;
+    	    					return true;
+    	    				}
+    	    				return false;
+    	    			});
+    	    			if(!exists) {
+    	    				regions.push({
+    	    					zip : zip,
+    	    					name : event.feature.getProperty('NAME')
+    	    				});
+    	    				loadBarChart(zip);
+    	    				loadLineGraph(zip);
+    	    				loadMinMax(zip);
+    	    				loadForeclosure(zip);
+    	    			}
+    	    		}
+        		} else {
+        			//error
+        			//you are clicking too fast error.
+        		}
+        	});
+        });
 
-	  google.maps.event.addDomListener(window, 'load', initialize);
+		map.data.addListener('mouseover', function(event) {
+			var point = event.latLng;
+			var name = event.feature.getProperty('NAME');
+			map.data.overrideStyle(event.feature, { strokeWeight : 3 });
 
+		});
+		map.data.addListener('mouseout', function(event) {
+			map.data.revertStyle();
+		});
+	})
+	$scope.openModal = function() {
+		var modalInstance = $modal.open({
+			animation : $scope.animationsEnabled,
+			templateUrl : 'mapModal.html',
+			controller : 'ModalController',
+			scope : $scope
+		});
+
+		modalInstance.result.then(function(areas) {
+			console.log(areas);
+		});
+	}
 	function loadBarChart(zip) {
 		var start = new Date().getTime();
 		VService.getMedianRelation(zip).success(function(data, status) {
