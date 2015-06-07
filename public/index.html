@@ -46,7 +46,7 @@
 			</div>
 			<div class="row text-center">
 				<div class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4">
-					<a id="viewVis" ng-click="openModal()" class="btn btn-default btn-ghost btn-xl btn-block">VIEW VISUALIZATION</a>
+					<a id="viewVis" ng-click="openModal('mapModal.html')" class="btn btn-default btn-ghost btn-xl btn-block">VIEW VISUALIZATION</a>
 				</div>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 		</div>
 		<div id="visualization">
 			<div id="mapdiv" class="row">
-				<div id="barchartsdiv" class="col-lg-12 col-md-12">
+				<div id="barchartsdiv" class="col-lg-11 col-md-11">
 					<!-- <div class="progress" id="barprogresscontainer">
 						<div id="barprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
 							
@@ -66,9 +66,19 @@
 						
 					</div>
 				</div>
+				<div class="col-lg-1 col-md-1" id="helpdiv">
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<a ng-click="openModal('helpModal.html')" class="btn btn-block btn-primary">Help</a>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="row" id="linegraphdiv">
 				<div id="linegraphs" class="col-lg-8 col-md-8">
+					<div id="chart">
+						
+					</div>
 					<!-- <div class="row" class="linechartloading">
 						<div class="col-lg-12 col-md-12">
 							<div>
@@ -116,6 +126,9 @@
 	$('#barchartsdiv').height(function() {
 		return $(window).height() * 0.6;
 	});
+	$('#helpdiv').height(function() {
+		return $(window).height() * 0.6;
+	})
 
 	$('.barchartloading').height(function() {
 		return $(window).height() * 0.6;
@@ -157,6 +170,15 @@
 	     			</div>
 	     		</div>
 		     </div>
+		     <hr>
+			  <div class="row" ng-show="loading">
+			  	<div class="col-lg-12 col-md-12">
+			  		<div class="progress">
+			  			<div class="progress-bar">
+			  			</div>
+			  		</div>
+			  	</div>
+			  </div>
 		  </div>
 		  <div class="modal-footer">
 		     <button class="btn btn-primary" ng-click="close()">OK</button>
@@ -164,6 +186,30 @@
 	<!--</div>
 		</div>-->
 	  </script>
+	  <script type="text/ng-template" id="helpModal.html">
+		<div class="modal-header">
+			<h3 class="modal-title">This is where you get help, This is the title</h3>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div id="helpBar" class="col-lg-12 col-md-12">
+					This is where the bar is, you can write text and i will format!
+				</div>
+			</div>
+			<div class="row">
+				<div id="helpLine" class="col-lg-8 col-md-8">
+					there is where the line graph help will go
+				</div>
+				<div id="helpMisc" class="col-lg-4 col-md-4">
+					this is where the misc data help will go. The borders around are just so you can understand the boundaries.
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-click="close()">OK</button>
+		</div>
+	  </script>	
 </body>
+
 </html>
 

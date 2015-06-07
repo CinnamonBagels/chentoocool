@@ -1,10 +1,9 @@
 angular.module('app')
 .controller('VCtrl', ['$scope', 'VService', 'Barchart', 'Linechart', 'Minmax', '$modal',
 function($scope, VService, Barchart, Linechart, Minmax, $modal) {
+	$scope.loading = false;
 	var regions = $scope.regions = [];
 	$scope.$on('mapInitialized', function(event, map) {
-		console.log('huh?');
-		console.log(map);
 		map.data.loadGeoJson('./zillowneighborhoodsca.geojson');
 		var geocoder = new google.maps.Geocoder();
 		map.data.setStyle(function(feature) {
@@ -60,6 +59,7 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
     	    					zip : zip,
     	    					name : event.feature.getProperty('NAME')
     	    				});
+
     	    				loadBarChart(zip);
     	    				loadLineGraph(zip);
     	    				loadMinMax(zip);
@@ -83,12 +83,13 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 			map.data.revertStyle();
 		});
 	})
-	$scope.openModal = function() {
+	$scope.openModal = function(name) {
 		var modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
-			templateUrl : 'mapModal.html',
+			templateUrl : name,
 			controller : 'ModalController',
-			scope : $scope
+			scope : $scope,
+			windowClass : 'app-modal-window'
 		});
 
 		modalInstance.result.then(function(areas) {
