@@ -136,17 +136,21 @@
 	});
 	  </script>
 	  <script type="text/ng-template" id="mapModal.html">
+
+ <!-- 	<div class="modal-dialog modal-lg">
+      	<div class="modal-content">-->
+
 		  <div class="modal-header">
-		     <h3 class="modal-title">Choose stuff here</h3>
+		     <h3 class="modal-title">Choose a neighborhood to see its historical profitability</h3>
 		  </div>
 		  <div class="modal-body">
 		     <div class="row">
-				<div class="col-lg-6 col-md-6">
+				<div class="col-lg-8 col-md-8">
 					<map ui-map="map" center="32.715738, -117.161084" zoom="10" disableDoubleClickZoom="true" streetViewControl="false" id="map">
 				</div>
-	     		<div id="selected-regions" class="col-lg-6 col-md-6">
+	     		<div id="selected-regions" class="col-lg-4 col-md-4">
 	     			<div class="row" ng-repeat="region in regions">
-	     				<div class="col-lg-12 col-md-12">
+	     				<div class="col-lg-12 col-md-12" id="maptext">
 	     					<p>Region: {{region.name}}</p>
 	     					<p>Zipcode: {{region.zip}}</p>
 	     				</div>
@@ -157,6 +161,8 @@
 		  <div class="modal-footer">
 		     <button class="btn btn-primary" ng-click="close()">OK</button>
 		  </div>
+	<!--</div>
+		</div>-->
 	  </script>
 </body>
 </html>

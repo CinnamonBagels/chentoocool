@@ -174,15 +174,14 @@ body {
 }
 
 .bar {
-  fill: steelblue;
+  /*fill: steelblue;*/
   opacity:.6;
 }
 
 .bar:hover {
-  fill: brown;
+ /*fill: brown;*/ 
   opacity:.6;
 }
-
 
 .axis {
   font-size: 20px;
@@ -237,8 +236,11 @@ body {
     margin-left: 20px;
 }
 
-#linegraph{
-  border-radius: 5px;
-  border: 2px solid #4D4D94;
-  padding:5px;
+.modal-title{
+  font-family:asap;
 }
+
+ #maptext{
+  font-size:20px;
+  font-family:asap;
+ }
