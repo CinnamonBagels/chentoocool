@@ -69,7 +69,7 @@
 				<div class="col-lg-1 col-md-1" id="helpdiv">
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
-							<a ng-click="openModal('helpModal.html')" class="btn btn-block btn-primary">Help</a>
+							<a ng-click="openModal('helpModal.html')" class="modal-btn">Help</a>
 						</div>
 					</div>
 				</div>
@@ -181,32 +181,49 @@
 			  </div>
 		  </div>
 		  <div class="modal-footer">
-		     <button class="btn btn-primary" ng-click="close()">OK</button>
+		     <button class="modal-btn" ng-click="close()">OK</button>
 		  </div>
 	<!--</div>
 		</div>-->
 	  </script>
 	  <script type="text/ng-template" id="helpModal.html">
 		<div class="modal-header">
-			<h3 class="modal-title">This is where you get help, This is the title</h3>
+			<h3 class="modal-title">Helpful Hints</h3>
 		</div>
 		<div class="modal-body">
 			<div class="row">
 				<div id="helpBar" class="col-lg-12 col-md-12">
-					This is where the bar is, you can write text and i will format!
+					<center><h3 class="modal-title">Bar Graph</h3></center>
+					<br>
+					<i>What to do:</i><br>
+					Use the time slider to see how the overall monthly list prices and sale prices of a selected neighborhood compare to each other over different years.<br><br>
+					<i>What you&#x0027re looking at:</i><br>
+					<b>List Price</b> is the asking price of a house. It is the price that a seller would like to receive on the sale.<br>
+					<b>Sale Price</b> is the price that a house is actually sold for.
+
 				</div>
 			</div>
 			<div class="row">
 				<div id="helpLine" class="col-lg-8 col-md-8">
-					there is where the line graph help will go
+					<center><h3 class="modal-title">Line Graph</h3></center>
+					<br>
+					<i>What to do:</i><br>
+					Hover over the line to see more information and compare different regions.<br><br>
+					<i>What you&#x0027re looking at:</i><br>
+					This line graph conveys <b>&#x0025 Sold for Gain</b>, which is the percentage of homes sold for more than their previous purchase price within the region that you selected.
 				</div>
 				<div id="helpMisc" class="col-lg-4 col-md-4">
-					this is where the misc data help will go. The borders around are just so you can understand the boundaries.
+					<center><h3 class="modal-title">Percentages</h3></center>
+					<i>What you&#x0027re looking at:</i><br>
+					<b>Loss on highest cost</b>:??????<br>
+					<b>Loss on lowest cost</b>:???????<br>
+					<b>Homes Foreclosed</b>: The number of homes per 10,000 that were foreclosed in a given month. A foreclosure is when a homeowner loses their home to their bank.
+					
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn-primary" ng-click="close()">OK</button>
+			<button class="modal-btn" ng-click="close()">OK</button>
 		</div>
 	  </script>	
 </body>

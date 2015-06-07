@@ -7,9 +7,9 @@ angular.module('app')
 	var currentdata;
 	var format = d3.format('0,000');
 	var margin = {
-		top : 80,
-		right : 300,
-		bottom : 80,
+		top : 60,
+		right : 300 ,
+		bottom : 120,
 		left: 300
 	}
 	var barchartHeight = $('#barchartsdiv').height() - margin.top - margin.bottom;
@@ -114,7 +114,7 @@ angular.module('app')
 			.attr('y', 6)
 			.attr('dy', '.71em')
 			.style('text-anchor', 'end')
-			.text('List Value');
+			.text('List Value ($)');
 
 		whatever = svg.selectAll('.graph')
 			.data(currentdata)

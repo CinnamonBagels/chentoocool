@@ -255,3 +255,25 @@ body {
   font-size:20px;
   font-family:asap;
  }
+
+.modal-body{
+  font-family:asap;
+  font-size:20px;
+}
+
+.modal-btn{
+  background-color:steelblue;
+  color:white;
+  border-radius:5px;
+  padding-top:5px;
+  padding-bottom:5px;
+  padding-left:10px;
+  padding-right:10px;
+  font-size:25px;
+  font-family:asap;
+}
+
+a:hover{
+  text-decoration:none;
+  color:white;
+  cursor:pointer;
