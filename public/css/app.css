@@ -148,10 +148,21 @@ body {
     position: fixed;
 }
 
-#mapdiv, #linegraphdiv, #map, #barcharts,#linegraphs, #text {
+#mapdiv, #linegraphdiv, #map, #barcharts,#linegraphs, #text, #helpdiv {
     background-color: white !important;
 }
 
+#helpBar, #helpLine, #helpMisc {
+  border : 1px solid black;
+}
+.app-modal-window .modal-dialog {
+  width: 80%;
+  height: 90%;
+}
+
+#helpBar, #helpLine, #helpMisc {
+  height :300px;
+}
 
 .axis path,
 .axis line {
