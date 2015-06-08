@@ -25,19 +25,28 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 	$scope.progress = function() {
 		$scope.loading = true;
 		$scope.percentComplete = 0;
+		console.log($scope.regions);
 		$scope.regions.forEach(function(region) {
 			loadLineGraph(region.zip);
 			loadBarChart(region.zip);
+		});
+		console.log($('.tab-pane'));
+		var i = 0;
+		$('.tab-pane').addClass(function(index) {
+			return 'bar' + $scope.regions[i++].zip;
 		});
 		loadInterval = setInterval(function() {
 			console.log('calling')
 			$scope.percentComplete += 5;
 			if($scope.percentComplete === 100) {
-				clearInterval(loadInterval);
-				$('html, body').animate({
-					scrollTop: $("#visualization").offset().top
-				}, 2000);
-				modalInstance.close('data');
+				setTimeout(function() {
+					clearInterval(loadInterval);
+					$('html, body').animate({
+						scrollTop: $("#visualization").offset().top
+					}, 2000);
+					$scope.loading = false;
+					modalInstance.close('data');
+				}, 1000);
 			}
 		}, 750);
 	}
@@ -135,8 +144,9 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 	})
 	$scope.openModal = function(name) {
 		whyInterval = setInterval(function() {
-			if(!document.getElementById('why')) {
+			if(document.getElementById('why') === null) {
 				clearInterval(whyInterval);
+				return;
 			}
 			document.getElementById('why').click();
 		}, 50);
@@ -169,7 +179,12 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 		var start = new Date().getTime();
 		VService.getSoldForGain(zip).success(function(data, status) {
 			//console.log('line', data);
-			Linechart.loadChart(data, function() {
+			Linechart.loadChart(data, function(error) {
+				if(error) {
+					clearInterval(whyInterval);
+					$scope.error = true;
+					$scope.errorMessage = 'Unable to gather data, please try again.';
+				}
 				var end = new Date().getTime() - start;
 				console.log(end);
 			});
@@ -184,7 +199,11 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 			$scope.lowestSale = data.lowestSale;
 			$scope.highestSale = data.highestSale;
 			Minmax.generateData(data, function() {
-				
+				if(error) {
+					clearInterval(whyInterval);
+					$scope.error = true;
+					$scope.errorMessage = 'Unable to gather data, please try again.';
+				}
 			})
 		});
 	}
