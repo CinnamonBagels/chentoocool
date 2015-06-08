@@ -117,7 +117,7 @@ angular.module('app')
 			.attr('y', 6)
 			.attr('dy', '.71em')
 			.style('text-anchor', 'end')
-			.text('List Value');
+			.text('List Value ($)');
 
 		whatever = svg.selectAll('.graph' + data[0].regionname)
 			.data(data)
