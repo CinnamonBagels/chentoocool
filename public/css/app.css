@@ -137,7 +137,7 @@
   padding-left : 3px;
   padding-right : 3px;
   border: 1px solid grey;
-   font-size: 25px;
+   font-size: 20px;
   font-family:asap;
 }
 
@@ -415,6 +415,19 @@ a:hover{
 }
 
 #barcharts{
-  font-size:20px;
+  font-size:19px;
+  font-family:asap;
+  margin-top:10px;
+}
+
+#linegraphs{
+  font-family:asap;
+  font-size:19px;
+}
+
+#text{
+   font-size:20px;
   font-family:asap;
 }
+
+

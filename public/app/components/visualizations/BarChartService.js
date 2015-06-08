@@ -8,9 +8,9 @@ angular.module('app')
 	var currentdata;
 	var format = d3.format('0,000');
 	var margin = {
-		top : 80,
+		top : 30,
 		right : 100,
-		bottom : 160,
+		bottom : 220,
 		left: 100
 	}
 
@@ -20,10 +20,10 @@ angular.module('app')
 		.offset([-10, 0])
 		.html(function(d) {
 			return '<p>\
-				<strong>List Value: </strong> <span style="color:#326097">$' + d.listvalue + '</span>\
+				<strong>Median List Value: </strong> <span style="color:#326097">$' + d.listvalue + '</span>\
 			</p>\
 			<p>\
-				<strong>Sale Value: </strong><span style="color:#48d2d9">' + (+d.salevalue === 0 ? 'Unknown' : '$' + d.salevalue) + '</span>\
+				<strong>Median Sale Value: </strong><span style="color:#48d2d9">' + (+d.salevalue === 0 ? 'Unknown' : '$' + d.salevalue) + '</span>\
 			</p>'
 		});
 	barchartservice.loadChart = function(data, callback) {
@@ -123,7 +123,7 @@ angular.module('app')
 			.attr('y', 6)
 			.attr('dy', '.71em')
 			.style('text-anchor', 'end')
-			.text('List Value ($)');
+			.text(' Value ($)');
 
 		whatever = svg.selectAll('.graph' + data[0].regionname)
 			.data(data)
