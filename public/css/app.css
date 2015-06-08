@@ -435,11 +435,23 @@ a:hover{
 #linegraphs{
   font-family:asap;
   font-size:19px;
+  background-color:white;
 }
 
 #text{
    font-size:20px;
   font-family:asap;
 }
+
+.group-name{
+  font-size:25px;
+  font-family:helvetica;
+  color:white;
+  text-align:center;
+  margin-top:22%;
+}
+ #helpMisc{
+  font-size:17.5px;
+ }
 
 
