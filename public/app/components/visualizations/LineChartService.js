@@ -108,14 +108,15 @@ angular.module('app')
 	      	.attr("data-legend",function(d) { 
 	      		return d[0].RegionName;
 	      	})
-	      	.attr('data-legend-color', '#FF00FF')
+	      	.attr('data-legend-color', '#aae03a')
 	      	.attr('d', line)
-	      	.style('stroke', '#FF00ff');
+	      	.style('stroke', '#aae03a');
 
       	      legend = svg.append("g")
       		    .attr("class","legend")
       		    .attr("transform","translate(50,150)")
       		    .style("font-size","12px")
+      		    .style("font-family","asap")
       		    .call(d3.legend)
 
       		   setTimeout(function() { 
@@ -198,9 +199,9 @@ angular.module('app')
 	      .attr("data-legend",function(d) { 
 	      	return d[0].RegionName;
 	      })
-	      .attr('data-legend-color', '#00ff00')
+	      .attr('data-legend-color', '#7a65f3')
 	      .attr('d', line)
-	      .style('stroke', '#00ff00');
+	      .style('stroke', '#7a65f3');
 
 	      legend = svg.append("g")
 		    .attr("class","legend")
@@ -350,28 +351,32 @@ angular.module('app')
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(d.Value + '%')
-	              .style('font-size', '2em')
+	              .style('font-size' , '1.5em')
+	              .style('font-family' , 'asap')
 
 	          focus.select("text.y2")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(d.Value + '%')
-	              .style('font-size', '2em');
+	              .style('font-size' , '1.5em')
+	              .style('font-family' , 'asap');
 
 	          focus.select("text.y3")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(formatDate(d.date))
-	              .style('font-size', '2em');
+	              .style('font-size' , '1.5em')
+	              .style('font-family' , 'asap')
 
 	          focus.select("text.y4")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(formatDate(d.date))
-	              .style('font-size', '2em');
+	              .style('font-size' , '1.5em')
+	              .style('font-famity', 'asap')
 
 	          focus.select(".x")
 	              .attr("transform",

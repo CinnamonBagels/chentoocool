@@ -14,16 +14,16 @@ angular.module('app')
 		left: 100
 	}
 
-	var color = d3.scale.ordinal().range(['#FF4D4D', '#84D484']);
+	var color = d3.scale.ordinal().range(['#326097', '#48d2d9']);
 	var tip = d3.tip()
 		.attr('class', 'd3-tip')
 		.offset([-10, 0])
 		.html(function(d) {
 			return '<p>\
-				<strong>List Value: </strong> <span style="color:red">$' + d.listvalue + '</span>\
+				<strong>List Value: </strong> <span style="color:#326097">$' + d.listvalue + '</span>\
 			</p>\
 			<p>\
-				<strong>Sale Value: </strong><span style="color:green">' + (+d.salevalue === 0 ? 'Unknown' : '$' + d.salevalue) + '</span>\
+				<strong>Sale Value: </strong><span style="color:#48d2d9">' + (+d.salevalue === 0 ? 'Unknown' : '$' + d.salevalue) + '</span>\
 			</p>'
 		});
 	barchartservice.loadChart = function(data, callback) {
