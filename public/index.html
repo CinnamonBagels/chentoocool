@@ -63,15 +63,21 @@
 							
 						</div>
 					</div> -->
-					<div class="row" id="barcharts"> <center>Median List Value/Sale Value Comparison</center>
+					<div class="row" id="barcharts"> 
+						<center class="noSpace">Median List Value/Sale Value Comparison</center>
 					<div class="col-lg-12 col-md-12">
-						<tabset type="pills"><p>Choose a region to view:</p>
-						   <tab ng-repeat="region in regions" id="a{{region.zip}}" heading="{{region.name}}"><br>
+						<tabset type="pills">
+						   <tab ng-repeat="region in regions" id="a{{region.zip}}" heading="{{region.name}}">
 						  
 						   		<div class="row text-center" ng-show="barLoading" ng-cloak>
 						   			<div class="col-lg-12 col-md-12">
 						   				
 						   				<img src="./img/716.gif" class="loadingImage">
+						   			</div>
+						   		</div>
+						   		<div class="row text-center" ng-show="barLoading" ng-cloak>
+						   			<div class="col-lg-12 col-md-12">
+						   				<span class="loadTitle">Choose a tab above to view the visualizations when loaded.</span>
 						   			</div>
 						   		</div>
 						   </tab>
@@ -117,7 +123,7 @@
 			</div>
 			<div class="row" id="linegraphdiv">
 				<div id="linegraphs" class="col-lg-8 col-md-8">
-					<center>% Sold for Gain</center>
+					<center class="noSpace">% Sold for Gain</center>
 					<div id="chart">
 						
 					</div>

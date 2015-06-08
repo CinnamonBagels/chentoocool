@@ -3,6 +3,12 @@
   src:url(../../fonts/Asap.otf);
 }
 
+.noSpace {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align:   center;
+}
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
 .tabs-left > .nav-tabs {
@@ -247,6 +253,12 @@ body {
 #landingImage {
     height: inherit;
     width: inherit;
+}
+
+.loadTitle {
+  font-size: 2em;
+  font-weight: bold;
+  font-family : asap;
 }
 
 .landingImageContainer {
