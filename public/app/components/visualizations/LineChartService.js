@@ -289,25 +289,29 @@ angular.module('app')
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
-	              .text(d.Value + '%');
+	              .text(d.Value + '%')
+	              .style('font-size' , '20px')
 
 	          focus.select("text.y2")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
-	              .text(d.Value + '%');
+	              .text(d.Value + '%')
+	              .style('font-size' , '20px');
 
 	          focus.select("text.y3")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
-	              .text(formatDate(d.date));
+	              .text(formatDate(d.date))
+	              .style('font-size' , '20px')
 
 	          focus.select("text.y4")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
-	              .text(formatDate(d.date));
+	              .text(formatDate(d.date))
+	              .style('font-size' , '20px')
 
 	          focus.select(".x")
 	              .attr("transform",

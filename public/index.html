@@ -72,7 +72,7 @@
 				<div class="col-lg-1 col-md-1" id="helpdiv">
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
-							<a ng-click="openModal('helpModal.html')" class="modal-btn">Help</a>
+							<a ng-click="openModal('helpModal.html')" class="btn btn-primary">Help</a>
 						</div>
 					</div>
 				</div>
@@ -158,9 +158,6 @@
 	  </script>
 	  <script type="text/ng-template" id="mapModal.html">
 
- <!-- 	<div class="modal-dialog modal-lg">
-      	<div class="modal-content">-->
-
 		  <div class="modal-header">
 		     <h3 class="modal-title">Choose a neighborhood to see its historical profitability</h3>
 		  </div>
@@ -170,7 +167,7 @@
 					<map ui-map="map" center="32.715738, -117.161084" zoom="10" disableDoubleClickZoom="true" streetViewControl="false" id="map">
 				</div>
 				<div class="col-lg-3 col-md-3">
-					<p>Click a region marked in grey to add it to the list of region blah blah blah.</p>
+					<p>Refer to this box to see the name of the region you are hovering over</p>
 					<div class="panel panel-default">
 					  <div class="panel-heading">Hovered Region</div>
 					  <div ng-model="regionName" class="panel-body">
@@ -184,14 +181,17 @@
 					</div>
 				</div>
 	     		<div id="selected-regions" class="col-lg-3 col-md-3">
+	     			<p>These are the regions you have selected. You can choose up to 2.
 	     			<div class="row" ng-repeat="region in regions">
 	     				<div class="col-lg-12 col-md-12">
 	     					<div class="panel panel-default">
+	     					<div class="panel-heading">Selected Region(s)</div>
 	     					  <div class="panel-body">
 	     					    <div class="row">
 	     					    	<div class="col-lg-8 col-md-8">
 	     					    		{{region.name}}, {{region.zip}}
 	     					    	</div>
+
 	     					    	<div class="col-lg-3 col-md-4">
 	     					    		<a class="btn btn-warning" ng-click="remove(region.name)">Remove</a>
 	     					    	</div>
@@ -210,12 +210,11 @@
 			  	</div>
 			  </div>
 		  </div>
-<<<<<<< HEAD
+
 		  <div class="modal-footer" id="why">
 		     <button class="btn btn-primary" ng-click="progress()">Load Visualizations</button>
 		  </div>
-	<!--</div>
-		</div>-->
+
 	  </script>
 	  <script type="text/ng-template" id="helpModal.html">
 		<div class="modal-header">
@@ -254,7 +253,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button class="modal-btn" ng-click="close()">OK</button>
+			<button class="btn btn-primary" ng-click="close()">OK</button>
 		</div>
 	  </script>	
 </body>

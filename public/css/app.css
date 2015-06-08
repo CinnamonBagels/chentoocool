@@ -383,19 +383,25 @@ body {
   font-size:20px;
 }
 
-.modal-btn{
-  background-color:steelblue;
-  color:white;
-  border-radius:5px;
-  padding-top:5px;
-  padding-bottom:5px;
-  padding-left:10px;
-  padding-right:10px;
-  font-size:25px;
+.btn-primary{
+  font-size:20px;
   font-family:asap;
+  margin-top:5px;
+}
+
+.btn-warning{
+  font-size:20px;
+  font-family:asap;
+  padding-right:10px;
 }
 
 a:hover{
   text-decoration:none;
   color:white;
   cursor:pointer;
+}
+
+#barcharts{
+  font-size:20px;
+  font-family:asap;
+}
