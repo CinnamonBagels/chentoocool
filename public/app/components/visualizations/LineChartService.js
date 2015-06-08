@@ -68,8 +68,11 @@ angular.module('app')
 
    var focus = svg.append('g')
    				.style('display', 'none');
+   	var focus0 = svg.append('g')
+   				.style('display', 'none');
 	linechartservice.loadChart = function(data, callback) {
 		console.log(data);
+		if(!data[0]) return callback('error');
 		data.forEach(function(d) {
 			d.date = parseDate(d.Month + '-' + d.Year);
 			d.Value = +d.Value;
@@ -123,7 +126,7 @@ angular.module('app')
       		         .call(d3.legend)
       		     },1000)
 
-      		   	    focus.append('circle')
+      		   	    focus0.append('circle')
       		   	    	.attr('class', 'y')
       		   	    	.style('fill', 'none')
       		   	    	.style('stroke', 'blue')
@@ -131,7 +134,7 @@ angular.module('app')
 
 
       		           // append the y line
-      		           focus.append("line")
+      		           focus0.append("line")
       		               .attr("class", "y")
       		               .style("stroke", "blue")
       		               .style("stroke-dasharray", "3,3")
@@ -140,7 +143,7 @@ angular.module('app')
       		               .attr("x2", width);
 
       		   	    // append the x line
-      		           focus.append("line")
+      		           focus0.append("line")
       		               .attr("class", "x")
       		               .style("stroke", "blue")
       		               .style("stroke-dasharray", "3,3")
@@ -149,27 +152,29 @@ angular.module('app')
       		               .attr("y2", height);
 
       		           // place the value at the intersection
-      		           focus.append("text")
+      		           focus0.append("text")
       		               .attr("class", "y1")
       		               .style("stroke", "white")
-      		               .style("stroke-width", "3.5px")
+      		               .style("stroke-width", "7.5px")
       		               .style("opacity", 1)
+      		               .style('font-size', '2em')
       		               .attr("dx", 8)
       		               .attr("dy", "-.3em");
-      		           focus.append("text")
+      		           focus0.append("text")
       		               .attr("class", "y2")
       		               .attr("dx", 8)
       		               .attr("dy", "-.3em");
 
       		           // place the date at the intersection
-      		           focus.append("text")
+      		           focus0.append("text")
       		               .attr("class", "y3")
       		               .style("stroke", "white")
-      		               .style("stroke-width", "3.5px")
+      		               .style("stroke-width", "7.5px")
       		               .style("opacity", 1)
+      		               .style('font-size', '2em')
       		               .attr("dx", 8)
       		               .attr("dy", "1em");
-      		           focus.append("text")
+      		           focus0.append("text")
       		               .attr("class", "y4")
       		               .attr("dx", 8)
       		               .attr("dy", "1em");
@@ -182,9 +187,9 @@ angular.module('app')
       		   	        .attr("height", height)                            // **********
       		   	        .style("fill", "none")                             // **********
       		   	        .style("pointer-events", "all")                    // **********
-      		   	        .on("mouseover", function() { focus.style("display", null); })
-      		   	        .on("mouseout", function() { focus.style("display", "none"); })
-      		   	        .on("mousemove", mousemove);                       // **********
+      		   	        .on("mouseover", function() { focus0.style("display", null); })
+      		   	        .on("mouseout", function() { focus0.style("display", "none"); })
+      		   	        .on("mousemove", mousemove0);                       // **********
 
       		   	        return;
 	      }
@@ -240,8 +245,9 @@ angular.module('app')
         focus.append("text")
             .attr("class", "y1")
             .style("stroke", "white")
-            .style("stroke-width", "3.5px")
+            .style("stroke-width", "7.5px")
             .style("opacity", 1)
+            .style('font-size', '2em')
             .attr("dx", 8)
             .attr("dy", "-.3em");
         focus.append("text")
@@ -253,8 +259,9 @@ angular.module('app')
         focus.append("text")
             .attr("class", "y3")
             .style("stroke", "white")
-            .style("stroke-width", "3.5px")
+            .style("stroke-width", "7.5px")
             .style("opacity", 1)
+            .style('font-size', '2em')
             .attr("dx", 8)
             .attr("dy", "1em");
         focus.append("text")
@@ -273,6 +280,59 @@ angular.module('app')
 	        .on("mouseover", function() { focus.style("display", null); })
 	        .on("mouseout", function() { focus.style("display", "none"); })
 	        .on("mousemove", mousemove);                       // **********
+
+	      function mousemove0() {
+	      	var x0 = x.invert(d3.mouse(this)[0]),         
+	      	    i = bisectDate(data, x0, 1),              
+	      	    d0 = data[i - 1],                         
+	      	    d1 = data[i],                             
+	      	    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+	      	focus0.select("circle.y")                      
+	      	    .attr("transform",                        
+	      	          "translate(" + x(d.date) + "," +    
+	      	                         y(d.Value) + ")");  
+
+	      	  focus0.select("text.y1")
+	      	      .attr("transform",
+	      	            "translate(" + x(d.date) + "," +
+	      	                           y(d.Value) + ")")
+	      	      .text(d.Value + '%')
+	      	      .style('font-size', '2em')
+
+	      	  focus0.select("text.y2")
+	      	      .attr("transform",
+	      	            "translate(" + x(d.date) + "," +
+	      	                           y(d.Value) + ")")
+	      	      .text(d.Value + '%')
+	      	      .style('font-size', '2em');
+
+	      	  focus0.select("text.y3")
+	      	      .attr("transform",
+	      	            "translate(" + x(d.date) + "," +
+	      	                           y(d.Value) + ")")
+	      	      .text(formatDate(d.date))
+	      	      .style('font-size', '2em');
+
+	      	  focus0.select("text.y4")
+	      	      .attr("transform",
+	      	            "translate(" + x(d.date) + "," +
+	      	                           y(d.Value) + ")")
+	      	      .text(formatDate(d.date))
+	      	      .style('font-size', '2em');
+
+	      	  focus0.select(".x")
+	      	      .attr("transform",
+	      	            "translate(" + x(d.date) + "," +
+	      	                           y(d.Value) + ")")
+	      	                 .attr("y2", height - y(d.Value));
+
+	      	  focus0.select(".y")
+	      	      .attr("transform",
+	      	            "translate(" + width * -1 + "," +
+	      	                           y(d.Value) + ")")
+	      	                 .attr("x2", width + width); 
+	      }
 
 		 function mousemove() {                            
 	        var x0 = x.invert(d3.mouse(this)[0]),         
@@ -316,6 +376,7 @@ angular.module('app')
 	                                   y(d.Value) + ")")
 	              .text(formatDate(d.date))
 	              .style('font-size' , '1.5em')
+	              .style('font-famity', 'asap')
 
 	          focus.select(".x")
 	              .attr("transform",

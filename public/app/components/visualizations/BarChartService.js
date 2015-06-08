@@ -10,7 +10,7 @@ angular.module('app')
 	var margin = {
 		top : 80,
 		right : 100,
-		bottom : 80,
+		bottom : 160,
 		left: 100
 	}
 
@@ -19,7 +19,6 @@ angular.module('app')
 		.attr('class', 'd3-tip')
 		.offset([-10, 0])
 		.html(function(d) {
-			console.log(d);
 			return '<p>\
 				<strong>List Value: </strong> <span style="color:#326097">$' + d.listvalue + '</span>\
 			</p>\
@@ -48,7 +47,8 @@ angular.module('app')
 		var xAxis = d3.svg.axis()
 					.scale(x)
 					.orient('bottom')
-					.ticks(7);
+					.tickFormat(d3.time.format("%b-%Y"))
+					.ticks(d3.time.years, 1);
 
 		var yAxis = d3.svg.axis()
 					.scale(y)
@@ -56,13 +56,13 @@ angular.module('app')
 					.ticks(5, 'K')
 					.tickFormat(d3.format('0,000'));
 
-		var svg = d3.select('#a' + data[0].regionname).append('svg')
+		var svg = d3.select('.bar' + data[0].regionname).append('svg')
 					.attr('width', barchartWidth + margin.left + margin.right)
 					.attr('height', barchartHeight + margin.bottom + margin.top)
 					.append('g')
 					.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 		if(!data[0]) {
-			return callback();
+			return callback('error');
 		}
 		var values = d3.keys(data[0].values);
 
@@ -96,7 +96,7 @@ angular.module('app')
 		// // }));
 
 		x.domain(data.map(function(d) {
-			console.log(d);
+			console.log(parse(d.date));
 			return parse(d.date);
 		}));
 
@@ -107,7 +107,15 @@ angular.module('app')
 		svg.append('g')
 			.attr('class', 'x axis')
 			.attr('transform', 'translate(0,' + barchartHeight + ')')
-			.call(xAxis);
+			.call(xAxis)
+			.selectAll("text")  
+				.style('font-size', '0.7em')
+	            .style("text-anchor", "end")
+	            .attr("dx", "-.8em")
+	            .attr("dy", ".15em")
+	            .attr("transform", function(d) {
+	                return "rotate(-65)" 
+	                });;
 
 		svg.append('g')
 			.attr('class', 'y axis')
