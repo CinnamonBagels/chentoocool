@@ -68,10 +68,7 @@ angular.module('app')
 
    var focus = svg.append('g')
    				.style('display', 'none');
-   	var focus0 = svg.append('g')
-   				.style('display', 'none');
-	linechartservice.loadChart = function(data, callback) {
-		console.log(data);
+	linechartservice.loadChart = function(data, regions, callback) {
 		if(!data[0]) return callback('error');
 		data.forEach(function(d) {
 			d.date = parseDate(d.Month + '-' + d.Year);
@@ -105,8 +102,14 @@ angular.module('app')
 	      	svg.append('path')
 	      	.datum(data)
 	      	.attr('class', 'line')
-	      	.attr("data-legend",function(d) { 
-	      		return d[0].RegionName;
+	      	.attr("data-legend", function(d) {
+	      		var regionName;
+	      		regions.forEach(function(region) {
+	      			if(d[0].RegionName === region.zip)
+	      				regionName = region.name;
+	      		})
+
+	      		return regionName;
 	      	})
 	      	.attr('data-legend-color', '#aae03a')
 	      	.attr('d', line)
@@ -126,7 +129,7 @@ angular.module('app')
       		         .call(d3.legend)
       		     },1000)
 
-      		   	    focus0.append('circle')
+      		   	    focus.append('circle')
       		   	    	.attr('class', 'y')
       		   	    	.style('fill', 'none')
       		   	    	.style('stroke', 'blue')
@@ -134,7 +137,7 @@ angular.module('app')
 
 
       		           // append the y line
-      		           focus0.append("line")
+      		           focus.append("line")
       		               .attr("class", "y")
       		               .style("stroke", "blue")
       		               .style("stroke-dasharray", "3,3")
@@ -143,7 +146,7 @@ angular.module('app')
       		               .attr("x2", width);
 
       		   	    // append the x line
-      		           focus0.append("line")
+      		           focus.append("line")
       		               .attr("class", "x")
       		               .style("stroke", "blue")
       		               .style("stroke-dasharray", "3,3")
@@ -152,7 +155,7 @@ angular.module('app')
       		               .attr("y2", height);
 
       		           // place the value at the intersection
-      		           focus0.append("text")
+      		           focus.append("text")
       		               .attr("class", "y1")
       		               .style("stroke", "white")
       		               .style("stroke-width", "7.5px")
@@ -160,13 +163,13 @@ angular.module('app')
       		               .style('font-size', '2em')
       		               .attr("dx", 8)
       		               .attr("dy", "-.3em");
-      		           focus0.append("text")
+      		           focus.append("text")
       		               .attr("class", "y2")
       		               .attr("dx", 8)
       		               .attr("dy", "-.3em");
 
       		           // place the date at the intersection
-      		           focus0.append("text")
+      		           focus.append("text")
       		               .attr("class", "y3")
       		               .style("stroke", "white")
       		               .style("stroke-width", "7.5px")
@@ -174,7 +177,7 @@ angular.module('app')
       		               .style('font-size', '2em')
       		               .attr("dx", 8)
       		               .attr("dy", "1em");
-      		           focus0.append("text")
+      		           focus.append("text")
       		               .attr("class", "y4")
       		               .attr("dx", 8)
       		               .attr("dy", "1em");
@@ -187,8 +190,8 @@ angular.module('app')
       		   	        .attr("height", height)                            // **********
       		   	        .style("fill", "none")                             // **********
       		   	        .style("pointer-events", "all")                    // **********
-      		   	        .on("mouseover", function() { focus0.style("display", null); })
-      		   	        .on("mouseout", function() { focus0.style("display", "none"); })
+      		   	        .on("mouseover", function() { focus.style("display", null); })
+      		   	        .on("mouseout", function() { focus.style("display", "none"); })
       		   	        .on("mousemove", mousemove0);                       // **********
 
       		   	        return;
@@ -197,24 +200,18 @@ angular.module('app')
 	      .datum(data)
 	      .attr('class', 'line')
 	      .attr("data-legend",function(d) { 
-	      	return d[0].RegionName;
+	      	var regionName;
+	      	regions.forEach(function(region) {
+	      		if(d[0].RegionName === region.zip)
+	      			regionName = region.name;
+	      	})
+
+	      	return regionName;
 	      })
 	      .attr('data-legend-color', '#7a65f3')
 	      .attr('d', line)
 	      .style('stroke', '#7a65f3');
 
-	      legend = svg.append("g")
-		    .attr("class","legend")
-		    .attr("transform","translate(50,150)")
-		    .style("font-size","12px")
-		    .call(d3.legend)
-
-		   setTimeout(function() { 
-		       legend
-		         .style("font-size","20px")
-		         .attr("data-style-padding",10)
-		         .call(d3.legend)
-		     },1000)
 
 	    focus.append('circle')
 	    	.attr('class', 'y')
@@ -288,46 +285,46 @@ angular.module('app')
 	      	    d1 = data[i],                             
 	      	    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
-	      	focus0.select("circle.y")                      
+	      	focus.select("circle.y")                      
 	      	    .attr("transform",                        
 	      	          "translate(" + x(d.date) + "," +    
 	      	                         y(d.Value) + ")");  
 
-	      	  focus0.select("text.y1")
+	      	  focus.select("text.y1")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(d.Value + '%')
 	      	      .style('font-size', '2em')
 
-	      	  focus0.select("text.y2")
+	      	  focus.select("text.y2")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(d.Value + '%')
 	      	      .style('font-size', '2em');
 
-	      	  focus0.select("text.y3")
+	      	  focus.select("text.y3")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(formatDate(d.date))
 	      	      .style('font-size', '2em');
 
-	      	  focus0.select("text.y4")
+	      	  focus.select("text.y4")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(formatDate(d.date))
 	      	      .style('font-size', '2em');
 
-	      	  focus0.select(".x")
+	      	  focus.select(".x")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	                 .attr("y2", height - y(d.Value));
 
-	      	  focus0.select(".y")
+	      	  focus.select(".y")
 	      	      .attr("transform",
 	      	            "translate(" + width * -1 + "," +
 	      	                           y(d.Value) + ")")

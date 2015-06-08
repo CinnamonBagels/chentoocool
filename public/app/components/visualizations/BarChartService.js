@@ -27,7 +27,9 @@ angular.module('app')
 			</p>'
 		});
 	barchartservice.loadChart = function(data, callback) {
-		console.log(data);
+		if(!data[0]) {
+			return callback('error');
+		}
 		var barchartHeight = $('#barchartsdiv').height() - margin.top - margin.bottom;
 		var barchartWidth = $('#barchartsdiv').width() - margin.left - margin.right;
 
@@ -61,9 +63,6 @@ angular.module('app')
 					.attr('height', barchartHeight + margin.bottom + margin.top)
 					.append('g')
 					.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-		if(!data[0]) {
-			return callback('error');
-		}
 		var values = d3.keys(data[0].values);
 
 		var max = d3.max(data, function(d) {
@@ -96,7 +95,6 @@ angular.module('app')
 		// // }));
 
 		x.domain(data.map(function(d) {
-			console.log(parse(d.date));
 			return parse(d.date);
 		}));
 
@@ -168,7 +166,8 @@ angular.module('app')
 		var lowbound = counter * 12;
 		var highbound = lowbound + 12 > alldata.length ? alldata.length : lowbound + 12;
 		var currentdata = alldata.slice(lowbound, highbound);
-		console.log(currentdata);
+
+		
 		var mod = [];
 		currentdata.forEach(function(d) {
 			mod.push(d.colorvalues[0].value);

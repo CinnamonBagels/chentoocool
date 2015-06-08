@@ -41,7 +41,7 @@
 		<div class="col-lg-12">
 			<div class="row">
 				<div class="col-lg-12 col-md-12">
-					<div id="landing-text" class="col-lg-12 text-center">CHENTOOCOOL</div>
+					<div id="landing-text" class="col-lg-12 text-center">PRICEPAD</div>
 				</div>
 				<div id="description"><i><center>This website takes housing data collected from Zillow and uses interactive visualizations to convey the profitability trends of different neighborhoods in San Diego. It allows users to explore and compare the collective list price, sale price, and profitability of all houses within a specific neighborhood throughout the years.</p></i></div>
 			</div>
@@ -55,7 +55,7 @@
 		<div class="landing row">
 			
 		</div>
-		<div id="visualization">
+		<div id="visualization" ng-cloak>
 			<div id="mapdiv" class="row">
 				<div id="barchartsdiv" class="col-lg-10 col-md-10">
 					<!-- <div class="progress" id="barprogresscontainer">
@@ -64,14 +64,32 @@
 						</div>
 					</div> -->
 					<div class="row" id="barcharts">
+					<div class="col-lg-12 col-md-12">
 						<tabset type="pills">
 						   <tab ng-repeat="region in regions" id="a{{region.zip}}" heading="{{region.name}}">
-						   		
+						   		<div class="row text-center" ng-show="barLoading" ng-cloak>
+						   			<div class="col-lg-12 col-md-12">
+						   				<img src="./img/716.gif" class="loadingImage">
+						   			</div>
+						   		</div>
 						   </tab>
 						 </tabset>
 					</div>
+					</div>
 				</div>
-				<div class="col-lg-2 col-md-2" id="helpdiv">
+				<div class="col-lg-2 col-md-2" id="helpdiv" ng-cloak>
+					<div class="row text-center">
+						<div class="col-lg-12 col-md-12">
+							<span class="title">
+								PRICEPAD
+							</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<a onclick="scrolltop()" class="btn btn-info btn-block">Back to top</a>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
 							<hr>
@@ -85,6 +103,11 @@
 							<hr>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<a ng-click="clearVis()" class="btn btn-block btn-danger">Clear Visualizations</a>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="row" id="linegraphdiv">
@@ -94,31 +117,51 @@
 					</div>
 				</div>
 				<div id="text" class="col-lg-4 col-md-4">
-				<div class="row text-center">
-					<div class="col-lg-12 col-md-12">
-						<h3>Stats for nerds</h3>
-					</div>
-				</div>
 					<div class="row text-center">
-						<div class="col-lg-6 col-md-6" id="highsale">
-							
-						</div>
-						<div class="col-lg-6 col-md-6" id="lowsale">
-							
+						<div class="col-lg-12 col-md-12">
+							<h3 ng-cloak>Food for thought</h3>
 						</div>
 					</div>
-					<div class="row text-center">
-						<div class="col-lg-6 col-md-6" id="foreclosure">
-							
+					<div class="row" ng-show="notEnoughAreas">
+						<div class="col-lg-12 col-md-12">
+							<div class="alert alert-danger" role="alert">We cannot display any analytical data here because you have selected too few regions.</div>
 						</div>
-						<div class="col-lg-6 col-md-6"></div>
+					</div>
+					<div class="row" ng-show="foreclosureComplete">
+						<div class="col-lg-12 col-md-12">
+							<strong>{{highestForeclosure}}</strong> has a {{foreclosurePercentage}}% higher foreclosure rate than <strong>{{lowestForeclosure}}</strong>.
+						</div>
+					</div>
+					<div class="row" ng-show="lowlist">
+						<div class="col-lg-12 col-md-12">
+							<strong>{{firstlowestlistname}}</strong> has a lower-bound list price of ${{firstlowestlist}} in {{firstlowestlistyear}} compared to <strong>{{secondlowestlistname}}</strong> at ${{secondlowestlist}} in {{secondlowestlistyear}}.
+						</div>
+					</div>
+					<div class="row" ng-show="highlist">
+						<div class="col-lg-12 col-md-12">
+							<strong>{{firsthighestlistname}}</strong> has a high-bound list price of ${{firsthighestlist}} in {{firsthighestlistyear}} compared to <strong>{{secondhighestlistname}}</strong> at ${{secondhighestlist}} in {{secondhighestlistyear}}.
+						</div>
+					</div>
+					<div class="row" ng-show="lowsale">
+						<div class="col-lg-12 col-md-12">
+							<strong>{{firstlowestsalename}}</strong> has a lower-bound sale price of ${{firstlowestsale}} in {{firstlowestsaleyear}} compared to <strong>{{secondlowestsalename}}</strong> at ${{secondlowestsale}} in {{secondlowestsaleyear}}.
+						</div>
+					</div>
+					<div class="row" ng-show="highsale">
+						<div class="col-lg-12 col-md-12">
+							<strong>{{firsthighestsalename}}</strong> has a lower-bound sale price of ${{firsthighestsale}} in {{firsthighestsaleyear}} compared to <strong>{{secondhighestsalename}}</strong> at ${{secondhighestsale}} in {{secondhighestsaleyear}}.
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
-
+	function scrolltop() {
+		$('html, body').animate({
+			scrollTop: $("body").offset().top
+		}, 2000);
+	}
 	$('.landingImageContainer').height($(window).height());
 	$('.landingImageContainer').width($(window).width());
 	$('.landing').height($(window).height());
@@ -171,6 +214,11 @@
 							<div class="alert alert-danger" role="alert"><strong>Error! </strong>{{errorMessage}}</div>
 						</div>
 					</div>
+					<div class="row" ng-show="loading">
+						<div class="col-lg-12 col-md-12">
+							<div class="alert alert-success" role="alert"><strong>Now Loading! </strong>Note that some visualizations will take longer than what the loading bar suggests.</div>
+						</div>
+					</div>
 				</div>
 	     		<div id="selected-regions" class="col-lg-3 col-md-3">
 	     			<p>These are the regions you have selected. You can choose up to 2.
@@ -219,7 +267,7 @@
 					<center><h3 class="modal-title">Bar Graph</h3></center>
 					<br>
 					<i>What to do:</i><br>
-					Use the time slider to see how the overall monthly list prices and sale prices of a selected neighborhood compare to each other over different years.<br><br>
+					<br><br>
 					<i>What you&#x0027re looking at:</i><br>
 					<b>List Price</b> is the asking price of a house. It is the price that a seller would like to receive on the sale.<br>
 					<b>Sale Price</b> is the price that a house is actually sold for.
