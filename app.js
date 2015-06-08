@@ -85,9 +85,7 @@ function foreclosurequery(zip) {
 	selectAllFrom,
 	foreclosure,
 	whereInSD,
-	'and "RegionName"=\'' + zip + '\'',
-	'and "Value" is not null',
-	'order by "Value" desc limit 1'].join(' ');
+	'and "RegionName"=\'' + zip + '\''].join(' ');
 
 	return query;
 }
@@ -142,12 +140,25 @@ app.get('/foreclosureratio/:zip', function(req, res) {
 	pg.connect(conn, function(err, client, done) {
 		if(err) return console.log(err);
 
-		client.query(foreclosurequery(zip), function(err, highest) {
+		client.query(foreclosurequery(zip), function(err, response) {
 			if(err) return console.log(err);
-			var temp = highest.rows[0];
-			if(highest.rows[0]) {
-				temp.Value = Math.floor(highest.rows[0].Value);
-				res.send(temp);
+			if(response.rows) {
+				var data = response.rows;
+				data.sort(function(a, b) {
+					if(a.Year === b.Year) {
+						return a.Month - b.Month;
+					}
+
+					return a.Year - b.Year;
+				});
+
+				// var modData = data.map(function(d) {
+				// 	if(d.Value === null) {
+				// 		d.Value = 0;
+				// 	}
+				// })
+
+				res.send(data);
 			}
 		})
 	})
@@ -178,6 +189,11 @@ app.get('/highestandlowest/:zip', function(req, res) {
 						if(highsale.rows[0]) {
 							highestSale = highsale.rows[0].listvalue === null ? 'Unknown' : highsale.rows[0].listvalue;
 							res.send({
+								lowestsaleyear : lowsale.rows[0].year,
+								lowestlistyear : lowlist.rows[0].year,
+								highestsaleyear : highsale.rows[0].year,
+								highestlistyear : highlist.rows[0].year,
+								zip : zip,
 								lowestList : lowestList,
 								highestList : highestList,
 								lowestSale : lowestSale,

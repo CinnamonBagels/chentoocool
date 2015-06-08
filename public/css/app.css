@@ -263,6 +263,12 @@ body {
     background-color: white !important;
 }
 
+span.title {
+  font-size: 3em;
+  font-weight: bold;
+  font-family: helvetica;
+}
+
 #helpBar, #helpLine, #helpMisc {
   border : 1px solid black;
 }
@@ -275,6 +281,9 @@ body {
   height: 500px;
 }
 
+.loadingImage {
+  margin-top : 5%;
+}
 #selected-regions {
 }
 
@@ -383,6 +392,10 @@ body {
   font-size:20px;
 }
 
+.btn {
+  font-family : asap;
+  font-size:20px;
+}
 .btn-primary{
   font-size:20px;
   font-family:asap;
