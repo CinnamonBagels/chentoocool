@@ -1,6 +1,5 @@
 angular.module('app')
 .controller('ModalController', ['$scope', '$modalInstance', function($scope, $modalInstance) {
-
 	// function initialize() {
 	//     var mapOptions = {
 	//       zoom: 10,
@@ -86,7 +85,7 @@ angular.module('app')
 	//     });
 	//   }
 
-	  $scope.close = function() {
-	  	$modalInstance.close();
+	  $scope.close = function(reason) {
+	  	$modalInstance.close(reason);
 	  }
 }]);

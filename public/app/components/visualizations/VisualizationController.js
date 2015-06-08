@@ -1,8 +1,46 @@
 angular.module('app')
 .controller('VCtrl', ['$scope', 'VService', 'Barchart', 'Linechart', 'Minmax', '$modal',
 function($scope, VService, Barchart, Linechart, Minmax, $modal) {
+	var maxAreas = 2;
+	$scope.noSelected = 0;
 	$scope.loading = false;
+	$scope.errorMessage;
+	$scope.error = false;
+	$scope.percentComplete = 0;
+	var loadInterval;
+	var whyInterval;
+	console.log($scope);
+	var modalInstance;
 	var regions = $scope.regions = [];
+
+	$scope.remove = function(regionName) {
+		$scope.regions = $scope.regions.filter(function(region) {
+			if(region.name === regionName) {
+				region.event.feature.setProperty('isColorful', false);
+			}
+			return regionName !== region.name;
+		});
+	}
+
+	$scope.progress = function() {
+		$scope.loading = true;
+		$scope.percentComplete = 0;
+		$scope.regions.forEach(function(region) {
+			loadLineGraph(region.zip);
+			loadBarChart(region.zip);
+		});
+		loadInterval = setInterval(function() {
+			console.log('calling')
+			$scope.percentComplete += 5;
+			if($scope.percentComplete === 100) {
+				clearInterval(loadInterval);
+				$('html, body').animate({
+					scrollTop: $("#visualization").offset().top
+				}, 2000);
+				modalInstance.close('data');
+			}
+		}, 750);
+	}
 	$scope.$on('mapInitialized', function(event, map) {
 		map.data.loadGeoJson('./zillowneighborhoodsca.geojson');
 		var geocoder = new google.maps.Geocoder();
@@ -40,14 +78,22 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 
 
     	    		if(event.feature.getProperty('isColorful')) {
-    	    			event.feature.setProperty('isColorful', false);
-    	    			regions.forEach(function(region) {
+    	    			$scope.error = false;
 
-    	    			})
+    	    			event.feature.setProperty('isColorful', false);
+    	    			$scope.regions = regions.filter(function(region) {
+    	    				return region.name !== event.feature.getProperty('NAME');
+    	    			});
+    	    			$scope.noSelected = regions.length;
     	    		} else {
+    	    			if($scope.regions.length === maxAreas) {
+    	    				$scope.error = true;
+    	    				$scope.errorMessage = 'You have selected too many regions. Deselect one to choose another.'
+    	    				return;
+    	    			}
     	    			var exists = false;
     	    			event.feature.setProperty('isColorful', true);
-    	    			regions.some(function(region) {
+    	    			$scope.regions.some(function(region) {
     	    				if(event.feature.getProperty('NAME') === region.name) {
     	    					exists = true;
     	    					return true;
@@ -55,18 +101,21 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
     	    				return false;
     	    			});
     	    			if(!exists) {
-    	    				regions.push({
+    	    				$scope.regions.push({
     	    					zip : zip,
-    	    					name : event.feature.getProperty('NAME')
+    	    					name : event.feature.getProperty('NAME'),
+    	    					event : event
     	    				});
 
-    	    				loadBarChart(zip);
-    	    				loadLineGraph(zip);
-    	    				loadMinMax(zip);
-    	    				loadForeclosure(zip);
+    	    				// loadBarChart(zip);
+    	    				// loadLineGraph(zip);
+    	    				// loadMinMax(zip);
+    	    				// loadForeclosure(zip);
     	    			}
     	    		}
         		} else {
+        			$scope.error = true;
+        			$scope.errorMessage = 'You are clicking too fast! Try again.'
         			//error
         			//you are clicking too fast error.
         		}
@@ -76,6 +125,7 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 		map.data.addListener('mouseover', function(event) {
 			var point = event.latLng;
 			var name = event.feature.getProperty('NAME');
+			$scope.regionName = name;
 			map.data.overrideStyle(event.feature, { strokeWeight : 3 });
 
 		});
@@ -84,7 +134,13 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 		});
 	})
 	$scope.openModal = function(name) {
-		var modalInstance = $modal.open({
+		whyInterval = setInterval(function() {
+			if(!document.getElementById('why')) {
+				clearInterval(whyInterval);
+			}
+			document.getElementById('why').click();
+		}, 50);
+		modalInstance = $modal.open({
 			animation : $scope.animationsEnabled,
 			templateUrl : name,
 			controller : 'ModalController',
@@ -92,8 +148,10 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 			windowClass : 'app-modal-window'
 		});
 
-		modalInstance.result.then(function(areas) {
-			console.log(areas);
+		modalInstance.result.then(function(reason) {
+			clearInterval(whyInterval);
+			if(reason === 'data') {
+			}
 		});
 	}
 	function loadBarChart(zip) {

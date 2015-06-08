@@ -29,6 +29,7 @@
 	<script src="./js/ui-bootstrap-tpls.js"></script>
 	<script src="./app/app.routes.js"></script>
 	<script src="./js/d3.radial.js"></script>
+	<script src="./js/d3.legend.js"></script>
 
 </head>
 <body class="container-fluid">
@@ -63,7 +64,9 @@
 						</div>
 					</div> -->
 					<div class="row" id="barcharts">
-						
+						<tabset>
+						   <tab ng-repeat="region in regions" id="a{{region.zip}}" heading="{{region.name}}"></tab>
+						 </tabset>
 					</div>
 				</div>
 				<div class="col-lg-1 col-md-1" id="helpdiv">
@@ -94,6 +97,11 @@
 					</div> -->
 				</div>
 				<div id="text" class="col-lg-4 col-md-4">
+				<div class="row text-center">
+					<div class="col-lg-12 col-md-12">
+						<h3>Stats for nerds</h3>
+					</div>
+				</div>
 					<div class="row text-center">
 						<div class="col-lg-6 col-md-6" id="highsale">
 							
@@ -153,15 +161,39 @@
 		     <h3 class="modal-title">Choose stuff here</h3>
 		  </div>
 		  <div class="modal-body">
-		     <div class="row">
+		     <div class="row" id="maprow">
 				<div class="col-lg-6 col-md-6">
 					<map ui-map="map" center="32.715738, -117.161084" zoom="10" disableDoubleClickZoom="true" streetViewControl="false" id="map">
 				</div>
-	     		<div id="selected-regions" class="col-lg-6 col-md-6">
+				<div class="col-lg-3 col-md-3">
+					<p>Click a region marked in grey to add it to the list of region blah blah blah.</p>
+					<div class="panel panel-default">
+					  <div class="panel-heading">Hovered Region</div>
+					  <div ng-model="regionName" class="panel-body">
+					    {{regionName}}
+					  </div>
+					</div>
+					<div class="row" ng-show="error">
+						<div class="col-lg-12 col-md-12">
+							<div class="alert alert-danger" role="alert"><strong>Error! </strong>{{errorMessage}}</div>
+						</div>
+					</div>
+				</div>
+	     		<div id="selected-regions" class="col-lg-3 col-md-3">
 	     			<div class="row" ng-repeat="region in regions">
 	     				<div class="col-lg-12 col-md-12">
-	     					<p>Region: {{region.name}}</p>
-	     					<p>Zipcode: {{region.zip}}</p>
+	     					<div class="panel panel-default">
+	     					  <div class="panel-body">
+	     					    <div class="row">
+	     					    	<div class="col-lg-8 col-md-8">
+	     					    		{{region.name}}, {{region.zip}}
+	     					    	</div>
+	     					    	<div class="col-lg-3 col-md-4">
+	     					    		<a class="btn btn-warning" ng-click="remove(region.name)">Remove</a>
+	     					    	</div>
+	     					    </div>
+	     					  </div>
+	     					</div>
 	     				</div>
 	     			</div>
 	     		</div>
@@ -169,15 +201,13 @@
 		     <hr>
 			  <div class="row" ng-show="loading">
 			  	<div class="col-lg-12 col-md-12">
-			  		<div class="progress">
-			  			<div class="progress-bar">
-			  			</div>
-			  		</div>
+			  	<hr>
+			  		<progressbar id="progress" class="progress-striped active" value="percentComplete">Loading...</progressbar>
 			  	</div>
 			  </div>
 		  </div>
-		  <div class="modal-footer">
-		     <button class="btn btn-primary" ng-click="close()">OK</button>
+		  <div class="modal-footer" id="why">
+		     <button class="btn btn-primary" ng-click="progress()">Load Visualizations</button>
 		  </div>
 	  </script>
 	  <script type="text/ng-template" id="helpModal.html">
@@ -206,4 +236,3 @@
 </body>
 
 </html>
-

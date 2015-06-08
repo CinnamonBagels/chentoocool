@@ -4,46 +4,15 @@ angular.module('app')
 	var barcharts = d3.select('#barcharts');
 	var linegraph = d3.select('#linegraphs');
 	var alldata;
+	var parse = d3.time.format("%m/%Y").parse;
 	var currentdata;
 	var format = d3.format('0,000');
 	var margin = {
 		top : 80,
-		right : 300,
+		right : 100,
 		bottom : 80,
-		left: 300
+		left: 100
 	}
-	var barchartHeight = $('#barchartsdiv').height() - margin.top - margin.bottom;
-	var barchartWidth = $('#barchartsdiv').width() - margin.left - margin.right;
-	var sliderWidth = barchartWidth;
-
-	var whatever;
-	//console.log(barchartHeight);
-
-	var x = d3.scale.ordinal()
-			.rangeRoundBands([0, barchartWidth], 0.1);
-
-	var x0 = d3.scale.ordinal();
-
-
-	var y = d3.scale.linear().range([barchartHeight, 0]);
-
-
-
-	var xAxis = d3.svg.axis()
-				.scale(x)
-				.orient('bottom');
-
-	var yAxis = d3.svg.axis()
-				.scale(y)
-				.orient('left')
-				.ticks(5, 'K')
-				.tickFormat(d3.format('0,000'));
-
-	var svg = d3.select('#barcharts').append('svg')
-				.attr('width', barchartWidth + margin.left + margin.right)
-				.attr('height', barchartHeight + margin.bottom + margin.top)
-				.append('g')
-				.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 	var color = d3.scale.ordinal().range(['#FF4D4D', '#84D484']);
 	var tip = d3.tip()
@@ -59,6 +28,39 @@ angular.module('app')
 			</p>'
 		});
 	barchartservice.loadChart = function(data, callback) {
+		console.log(data);
+		var barchartHeight = $('#barchartsdiv').height() - margin.top - margin.bottom;
+		var barchartWidth = $('#barchartsdiv').width() - margin.left - margin.right;
+
+		var whatever;
+		//console.log(barchartHeight);
+
+		var x = d3.scale.ordinal()
+				.rangeRoundBands([0, barchartWidth], 0.1);
+
+		var x0 = d3.scale.ordinal();
+
+
+		var y = d3.scale.linear().range([barchartHeight, 0]);
+
+
+
+		var xAxis = d3.svg.axis()
+					.scale(x)
+					.orient('bottom')
+					.ticks(7);
+
+		var yAxis = d3.svg.axis()
+					.scale(y)
+					.orient('left')
+					.ticks(5, 'K')
+					.tickFormat(d3.format('0,000'));
+
+		var svg = d3.select('#a' + data[0].regionname).append('svg')
+					.attr('width', barchartWidth + margin.left + margin.right)
+					.attr('height', barchartHeight + margin.bottom + margin.top)
+					.append('g')
+					.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 		if(!data[0]) {
 			return callback();
 		}
@@ -83,18 +85,19 @@ angular.module('app')
 		var yearspan = data[data.length - 1].year - data[0].year;
 		//console.log(data);
 		alldata = data;
-		currentdata = alldata.slice(0, 12);
+		//currentdata = alldata.slice(0, 12);
 
-		barcharts.append('div')
-		.style('width', sliderWidth + 'px')
-		.style('margin-left', margin.left + 'px')
-		.style('bottom', (margin.bottom / 2) + 'px')
-		.call(d3.slider().axis(d3.svg.axis().ticks(yearspan).tickFormat(d3.format('d'))).min(alldata[0].year).max(alldata[alldata.length - 1].year).step(1).on('slide', function(event, value) {
-			updateBars(value);
-		}));
+		// barcharts.append('div')
+		// .style('width', sliderWidth + 'px')
+		// .style('margin-left', margin.left + 'px')
+		// .style('bottom', (margin.bottom / 2) + 'px')
+		// // .call(d3.slider().axis(d3.svg.axis().ticks(yearspan).tickFormat(d3.format('d'))).min(alldata[0].year).max(alldata[alldata.length - 1].year).step(1).on('slide', function(event, value) {
+		// // 	updateBars(value);
+		// // }));
 
-		x.domain(currentdata.map(function(d) {
-			return parseDate(d.month);
+		x.domain(data.map(function(d) {
+			console.log(d);
+			return parse(d.date);
 		}));
 
 		x0.domain(values).rangeRoundBands([0, x.rangeBand()]);
@@ -116,18 +119,18 @@ angular.module('app')
 			.style('text-anchor', 'end')
 			.text('List Value');
 
-		whatever = svg.selectAll('.graph')
-			.data(currentdata)
+		whatever = svg.selectAll('.graph' + data[0].regionname)
+			.data(data)
 			.enter().append('g')
 			.attr('class', 'g')
 			.attr('transform', function(d) {
-				return 'translate(' + x(parseDate(d.month)) + ',' + '0)';
+				return 'translate(' + x(parse(d.date)) + ',' + '0)';
 			})
 			.attr('class', 'lolbar')
 			
 		whatever.call(tip);
 
-		whatever.selectAll('rect')
+		whatever.selectAll('rect.a' + data[0].regionname)
 			.data(function(d) {
 				return d.colorvalues;
 			})
@@ -145,6 +148,7 @@ angular.module('app')
 			.style('fill', function(d) {
 				return color(d.name);
 			})
+			.attr('class', 'a' + data[0].regionname)
 			.on('mouseover', tip.show)
 			.on('mouseout', tip.hide);
 
