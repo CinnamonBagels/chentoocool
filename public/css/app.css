@@ -3,6 +3,12 @@
   src:url(../../fonts/Asap.otf);
 }
 
+.noSpace {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  text-align:   center;
+}
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,
 .tabs-left > .nav-tabs {
@@ -249,6 +255,12 @@ body {
     width: inherit;
 }
 
+.loadTitle {
+  font-size: 2em;
+  font-weight: bold;
+  font-family : asap;
+}
+
 .landingImageContainer {
     margin-left: -15px;
     padding-right: 0;
@@ -439,7 +451,7 @@ a:hover{
   margin-top:22%;
 }
  #helpMisc{
-  font-size:17.5px;
+  font-size:15px;
  }
 
 
