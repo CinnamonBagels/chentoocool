@@ -105,9 +105,9 @@ angular.module('app')
 	      	.attr("data-legend",function(d) { 
 	      		return d[0].RegionName;
 	      	})
-	      	.attr('data-legend-color', '#FF00FF')
+	      	.attr('data-legend-color', '#aae03a')
 	      	.attr('d', line)
-	      	.style('stroke', '#FF00ff');
+	      	.style('stroke', '#aae03a');
 
       	      legend = svg.append("g")
       		    .attr("class","legend")
@@ -194,9 +194,9 @@ angular.module('app')
 	      .attr("data-legend",function(d) { 
 	      	return d[0].RegionName;
 	      })
-	      .attr('data-legend-color', '#00ff00')
+	      .attr('data-legend-color', '#7a65f3')
 	      .attr('d', line)
-	      .style('stroke', '#00ff00');
+	      .style('stroke', '#7a65f3');
 
 	      legend = svg.append("g")
 		    .attr("class","legend")
