@@ -64,7 +64,7 @@
 						</div>
 					</div> -->
 					<div class="row" id="barcharts">
-						<tabset>
+						<tabset type="pills">
 						   <tab ng-repeat="region in regions" id="a{{region.zip}}" heading="{{region.name}}">
 						   		
 						   </tab>
@@ -73,8 +73,9 @@
 				</div>
 				<div class="col-lg-2 col-md-2" id="helpdiv">
 					<div class="row">
-						<hr>
-							<a ng-click="openModal('helpModal.html')" class="btn btn-block btn-primary">Help</a>
+						<div class="col-lg-12 col-md-12">
+							<hr>
+								<a ng-click="openModal('helpModal.html')" class="btn btn-block btn-primary">Help</a>
 							<hr>
 						</div>
 					</div>
@@ -179,11 +180,11 @@
 	     					<div class="panel-heading">Selected Region(s)</div>
 	     					  <div class="panel-body">
 	     					    <div class="row">
-	     					    	<div class="col-lg-8 col-md-8">
+	     					    	<div class="col-lg-7 col-md-7">
 	     					    		{{region.name}}, {{region.zip}}
 	     					    	</div>
 
-	     					    	<div class="col-lg-3 col-md-4">
+	     					    	<div class="col-lg-5 col-md-5">
 	     					    		<a class="btn btn-warning" ng-click="remove(region.name)">Remove</a>
 	     					    	</div>
 	     					    </div>
