@@ -113,6 +113,7 @@ angular.module('app')
       		    .attr("class","legend")
       		    .attr("transform","translate(50,150)")
       		    .style("font-size","12px")
+      		    .style("font-family","asap")
       		    .call(d3.legend)
 
       		   setTimeout(function() { 
@@ -290,28 +291,31 @@ angular.module('app')
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(d.Value + '%')
-	              .style('font-size' , '20px')
+	              .style('font-size' , '1.5em')
+	              .style('font-family' , 'asap')
 
 	          focus.select("text.y2")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(d.Value + '%')
-	              .style('font-size' , '20px');
+	              .style('font-size' , '1.5em')
+	              .style('font-family' , 'asap');
 
 	          focus.select("text.y3")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(formatDate(d.date))
-	              .style('font-size' , '20px')
+	              .style('font-size' , '1.5em')
+	              .style('font-family' , 'asap')
 
 	          focus.select("text.y4")
 	              .attr("transform",
 	                    "translate(" + x(d.date) + "," +
 	                                   y(d.Value) + ")")
 	              .text(formatDate(d.date))
-	              .style('font-size' , '20px')
+	              .style('font-size' , '1.5em')
 
 	          focus.select(".x")
 	              .attr("transform",
