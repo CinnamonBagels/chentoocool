@@ -31,7 +31,7 @@ angular.module('app')
 	// 	    }
 	// 	})
 	// }
-	var margin = {top: 50, right: 100, bottom: 50, left: 50},
+	var margin = {top: 50, right: 100, bottom: 60, left: 50},
     width = $('#linegraphs').width() - margin.left - margin.right,
     height = $('#linegraphdiv').height() - margin.top - margin.bottom;
     var legend;
@@ -118,13 +118,13 @@ angular.module('app')
       	      legend = svg.append("g")
       		    .attr("class","legend")
       		    .attr("transform","translate(50,150)")
-      		    .style("font-size","12px")
+      		    .style("font-size","1.5em")
       		    .style("font-family","asap")
       		    .call(d3.legend)
 
       		   setTimeout(function() { 
       		       legend
-      		         .style("font-size","20px")
+      		         .style("font-size","1.5em")
       		         .attr("data-style-padding",10)
       		         .call(d3.legend)
       		     },1000)
@@ -350,6 +350,7 @@ angular.module('app')
 	              .text(d.Value + '%')
 	              .style('font-size' , '1.5em')
 	              .style('font-family' , 'asap')
+	              .style('font-weight' , 'bold');
 
 	          focus.select("text.y2")
 	              .attr("transform",
@@ -357,7 +358,8 @@ angular.module('app')
 	                                   y(d.Value) + ")")
 	              .text(d.Value + '%')
 	              .style('font-size' , '1.5em')
-	              .style('font-family' , 'asap');
+	              .style('font-family' , 'asap')
+	              .style('font-weight' , 'bold');
 
 	          focus.select("text.y3")
 	              .attr("transform",
@@ -366,6 +368,7 @@ angular.module('app')
 	              .text(formatDate(d.date))
 	              .style('font-size' , '1.5em')
 	              .style('font-family' , 'asap')
+	              .style('font-weight' , 'bold')
 
 	          focus.select("text.y4")
 	              .attr("transform",
@@ -373,7 +376,8 @@ angular.module('app')
 	                                   y(d.Value) + ")")
 	              .text(formatDate(d.date))
 	              .style('font-size' , '1.5em')
-	              .style('font-famity', 'asap')
+	              .style('font-family', 'asap')
+	              .style('font-weight' , 'bold')
 
 	          focus.select(".x")
 	              .attr("transform",
