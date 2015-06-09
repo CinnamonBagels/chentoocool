@@ -124,6 +124,12 @@
 			<div class="row" id="linegraphdiv">
 				<div id="linegraphs" class="col-lg-8 col-md-8">
 					<center class="noSpace">% Sold for Gain</center>
+					<div class="row text-center" ng-show="lineLoading" ng-cloak>
+						<div class="col-lg-12 col-md-12">
+							
+							<img src="./img/716.gif" class="loadingImage">
+						</div>
+					</div>
 					<div id="chart">
 						
 					</div>
@@ -132,6 +138,12 @@
 					<div class="row text-center">
 						<div class="col-lg-12 col-md-12">
 							<h3 ng-cloak>Food for Thought</h3>
+						</div>
+					</div>
+					<div class="row text-center" ng-show="thoughtLoading" ng-cloak>
+						<div class="col-lg-12 col-md-12">
+							
+							<img src="./img/716.gif" class="loadingImage">
 						</div>
 					</div>
 					<div class="row" ng-show="notEnoughAreas">

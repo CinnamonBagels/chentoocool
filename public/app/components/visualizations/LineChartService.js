@@ -295,28 +295,36 @@ angular.module('app')
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(d.Value + '%')
-	      	      .style('font-size', '2em')
+	      	      .style('font-size' , '1.5em')
+	      	      .style('font-family', 'asap')
+	      	      .style('font-weight' , 'bold')
 
 	      	  focus.select("text.y2")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(d.Value + '%')
-	      	      .style('font-size', '2em');
+	      	      .style('font-size' , '1.5em')
+	      	      .style('font-family', 'asap')
+	      	      .style('font-weight' , 'bold');
 
 	      	  focus.select("text.y3")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(formatDate(d.date))
-	      	      .style('font-size', '2em');
+	      	      .style('font-size' , '1.5em')
+	      	      .style('font-family', 'asap')
+	      	      .style('font-weight' , 'bold');
 
 	      	  focus.select("text.y4")
 	      	      .attr("transform",
 	      	            "translate(" + x(d.date) + "," +
 	      	                           y(d.Value) + ")")
 	      	      .text(formatDate(d.date))
-	      	      .style('font-size', '2em');
+	      	      .style('font-size' , '1.5em')
+	      	      .style('font-family', 'asap')
+	      	      .style('font-weight' , 'bold');
 
 	      	  focus.select(".x")
 	      	      .attr("transform",

@@ -4,6 +4,8 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 	var maxAreas = 2;
 	var expectedAreas;
 	$scope.forecloseureComplete = false;
+	$scope.thoughtLoading = false;
+	$scope.lineLoading = false;
 	$scope.notEnoughAreas = false;
 	$scope.noSelected = 0;
 	$scope.barLoading = false;
@@ -50,6 +52,8 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 			$scope.notEnoughAreas = true;
 		}
 		$scope.barLoading = true;
+		$scope.thoughtLoading = true;
+		$scope.lineLoading = true;
 		$scope.loading = true;
 		$scope.percentComplete = 0;
 		$scope.regions.forEach(function(region) {
@@ -212,6 +216,7 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 		var start = new Date().getTime();
 		VService.getSoldForGain(zip).success(function(data, status) {
 			//console.log('line', data);
+			$scope.lineLoading = false;
 			Linechart.loadChart(data, zones, function(error) {
 				if(error) {
 					clearInterval(loadInterval);
@@ -274,6 +279,7 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 
 	function loadMinMax(zip) {
 		VService.getHighestAndLowest(zip).success(function(data, status) {
+			$scope.thoughtLoading = false;
 			minmaxArr.push(data);
 			if(minmaxArr.length === expectedAreas && minmaxArr.length === 2) {
 				var first, second;
@@ -374,6 +380,7 @@ function($scope, VService, Barchart, Linechart, Minmax, $modal) {
 	$scope.foreclosurePercentage;
 	function loadForeclosure(zip) {
 		VService.getForeclosure(zip).success(function(data, status) {
+			$scope.thoughtLoading = false;
 			foreclosureArr.push(data);
 			console.log(data);
 			if(foreclosureArr.length === expectedAreas && foreclosureArr.length === 2) {

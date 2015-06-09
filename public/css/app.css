@@ -285,10 +285,6 @@ span.title {
   font-weight: bold;
   font-family: helvetica;
 }
-
-#helpBar, #helpLine, #helpMisc {
-  border : 1px solid black;
-}
 .app-modal-window .modal-dialog {
   width: 80%;
   height: 500px;
