@@ -38,15 +38,15 @@
 			<img id="landingImage"src="/img/original.jpg" alt="">
 		</div>
 		<div class="landing row">
-		<div class="col-lg-12">
+		<div class="col-lg-12 col-md-12 col-sm-12">
 			<div class="row">
-				<div class="col-lg-12 col-md-12">
-					<div id="landing-text" class="col-lg-12 text-center">PRICEPAD</div>
+				<div class="col-lg-12 col-md-12 col-sm-12">
+					<div id="landing-text" class="col-lg-12 col-md-12 col-sm-12 text-center">PRICEPAD</div>
 				</div>
 				<div id="description"><i><center>This website takes housing data collected from Zillow and uses interactive visualizations to convey the profitability trends of different neighborhoods in San Diego. It allows users to explore and compare the collective list price, sale price, and profitability of all houses within a specific neighborhood throughout the years.</p></i></div>
 			</div>
 			<div class="row text-center">
-				<div class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4">
+				<div class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
 					<a id="viewVis" ng-click="openModal('mapModal.html')" class="btn btn-default btn-ghost btn-xl btn-block">VIEW VISUALIZATION</a>
 				</div>
 			</div>
@@ -57,7 +57,7 @@
 		</div>
 		<div id="visualization" ng-cloak>
 			<div id="mapdiv" class="row">
-				<div id="barchartsdiv" class="col-lg-10 col-md-10">
+				<div id="barchartsdiv" class="col-lg-10 col-md-10 col-sm-10">
 					<!-- <div class="progress" id="barprogresscontainer">
 						<div id="barprogress" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">
 							
@@ -65,18 +65,18 @@
 					</div> -->
 					<div class="row" id="barcharts"> 
 						<center class="noSpace">Median List Value/Sale Value Comparison</center>
-					<div class="col-lg-12 col-md-12">
+					<div class="col-lg-12 col-md-12 col-sm-12">
 						<tabset type="pills">
 						   <tab ng-repeat="region in regions" id="a{{region.zip}}" heading="{{region.name}}">
 						  
 						   		<div class="row text-center" ng-show="barLoading" ng-cloak>
-						   			<div class="col-lg-12 col-md-12">
+						   			<div class="col-lg-12 col-md-12 col-sm-12">
 						   				
 						   				<img src="./img/716.gif" class="loadingImage">
 						   			</div>
 						   		</div>
 						   		<div class="row text-center" ng-show="barLoading" ng-cloak>
-						   			<div class="col-lg-12 col-md-12">
+						   			<div class="col-lg-12 col-md-12 col-sm-12">
 						   				<span class="loadTitle">Choose a tab above to view the visualizations when loaded.</span>
 						   			</div>
 						   		</div>
@@ -85,9 +85,9 @@
 					</div>
 					</div>
 				</div>
-				<div class="col-lg-2 col-md-2" id="helpdiv" ng-cloak>
+				<div class="col-lg-2 col-md-2 col-sm-2" id="helpdiv" ng-cloak>
 					<div class="row text-center">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-2">
 							<span class="title">
 								PRICEPAD
 							</span>
@@ -95,25 +95,25 @@
 					</div>
 					
 					<div class="row">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<hr>
 								<a ng-click="openModal('helpModal.html')" class="btn btn-block btn-info">Help</a>
 							<hr>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<a ng-click="openModal('mapModal.html')" class="btn btn-block btn-primary">Edit Selected Regions</a>
 							<hr>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<a ng-click="clearVis()" class="btn btn-block btn-danger">Clear Visualizations</a>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<hr>
 							<a onclick="scrolltop()" class="btn btn-primary btn-block">Back to Top</a>
 							<hr>
@@ -122,10 +122,10 @@
 				</div>
 			</div>
 			<div class="row" id="linegraphdiv">
-				<div id="linegraphs" class="col-lg-8 col-md-8">
+				<div id="linegraphs" class="col-lg-8 col-md-8 col-sm-8">
 					<center class="noSpace">% Sold for Gain</center>
 					<div class="row text-center" ng-show="lineLoading" ng-cloak>
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							
 							<img src="./img/716.gif" class="loadingImage">
 						</div>
@@ -134,45 +134,45 @@
 						
 					</div>
 				</div>
-				<div id="text" class="col-lg-4 col-md-4">
+				<div id="text" class="col-lg-4 col-md-4 col-sm-4">
 					<div class="row text-center">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<h3 ng-cloak>Food for Thought</h3>
 						</div>
 					</div>
 					<div class="row text-center" ng-show="thoughtLoading" ng-cloak>
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							
 							<img src="./img/716.gif" class="loadingImage">
 						</div>
 					</div>
 					<div class="row" ng-show="notEnoughAreas">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="alert alert-danger" role="alert">We cannot display any analytical data here because you have selected too few regions.</div>
 						</div>
 					</div>
 					<div class="row" ng-show="foreclosureComplete">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<strong>{{highestForeclosure}}</strong> has encountered {{foreclosurePercentage}}% higher foreclosure instances than <strong>{{lowestForeclosure}}</strong>.
 						</div>
 					</div>
 					<div class="row" ng-show="lowlist">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<strong>{{firstlowestlistname}}</strong> has an alltime low listing price of ${{firstlowestlist}} in {{firstlowestlistyear}} compared to <strong>{{secondlowestlistname}}</strong> at ${{secondlowestlist}} in {{secondlowestlistyear}}.
 						</div>
 					</div>
 					<div class="row" ng-show="highlist">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<strong>{{firsthighestlistname}}</strong> has an alltime high listing price of ${{firsthighestlist}} in {{firsthighestlistyear}} compared to <strong>{{secondhighestlistname}}</strong> at ${{secondhighestlist}} in {{secondhighestlistyear}}.
 						</div>
 					</div>
 					<div class="row" ng-show="lowsale">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<strong>{{firstlowestsalename}}</strong> has an alltime low sale price of ${{firstlowestsale}} in {{firstlowestsaleyear}} compared to <strong>{{secondlowestsalename}}</strong> at ${{secondlowestsale}} in {{secondlowestsaleyear}}.
 						</div>
 					</div>
 					<div class="row" ng-show="highsale">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<strong>{{firsthighestsalename}}</strong> has an alltime high sale price of ${{firsthighestsale}} in {{firsthighestsaleyear}} compared to <strong>{{secondhighestsalename}}</strong> at ${{secondhighestsale}} in {{secondhighestsaleyear}}.
 						</div>
 					</div>
@@ -222,10 +222,10 @@
 		  </div>
 		  <div class="modal-body">
 		     <div class="row" id="maprow">
-				<div class="col-lg-6 col-md-6">
+				<div class="col-lg-6 col-md-6 col-sm-6">
 					<map ui-map="map" center="32.715738, -117.161084" zoom="10" disableDoubleClickZoom="true" streetViewControl="false" id="map">
 				</div>
-				<div class="col-lg-3 col-md-3">
+				<div class="col-lg-3 col-md-3 col-sm-3">
 					<p>Refer to this box to see the name of the region you are hovering over</p>
 					<div class="panel panel-default">
 					  <div class="panel-heading">Hovered Region</div>
@@ -234,29 +234,29 @@
 					  </div>
 					</div>
 					<div class="row" ng-show="error">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="alert alert-danger" role="alert"><strong>Error! </strong>{{errorMessage}}</div>
 						</div>
 					</div>
 					<div class="row" ng-show="loading">
-						<div class="col-lg-12 col-md-12">
+						<div class="col-lg-12 col-md-12 col-sm-12">
 							<div class="alert alert-success" role="alert"><strong>Now Loading! </strong>Note that some visualizations will take longer than what the loading bar suggests.</div>
 						</div>
 					</div>
 				</div>
-	     		<div id="selected-regions" class="col-lg-3 col-md-3">
+	     		<div id="selected-regions" class="col-lg-3 col-md-3 col-sm-3">
 	     			<p>These are the regions you have selected. You can choose up to 2.
 	     			<div class="row" ng-repeat="region in regions">
-	     				<div class="col-lg-12 col-md-12">
+	     				<div class="col-lg-12 col-md-12 col-sm-12">
 	     					<div class="panel panel-default">
 	     					<div class="panel-heading">Selected Region</div>
 	     					  <div class="panel-body">
 	     					    <div class="row">
-	     					    	<div class="col-lg-7 col-md-7">
+	     					    	<div class="col-lg-7 col-md-7 col-sm-7">
 	     					    		{{region.name}}, {{region.zip}}
 	     					    	</div>
 
-	     					    	<div class="col-lg-5 col-md-5">
+	     					    	<div class="col-lg-5 col-md-5 col-sm-5">
 	     					    		<a class="btn btn-warning" ng-click="remove(region.name)">Remove</a>
 	     					    	</div>
 	     					    </div>
@@ -268,7 +268,7 @@
 		     </div>
 		     <hr>
 			  <div class="row" ng-show="loading">
-			  	<div class="col-lg-12 col-md-12">
+			  	<div class="col-lg-12 col-md-12 col-sm-12">
 			  	<hr>
 			  		<progressbar id="progress" class="progress-striped active" value="percentComplete">Loading...</progressbar>
 			  	</div>
@@ -286,7 +286,7 @@
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div id="helpBar" class="col-lg-12 col-md-12">
+				<div id="helpBar" class="col-lg-12 col-md-12 col-sm-12">
 					<center><h3 class="modal-title">Bar Graph</h3></center>
 					<i>What to do:</i><br>
 					Use the tabs in the upper left corner to switch between the regions you chose. Hover over the bars to see the exact value of the overall median list price and median sale price for the region that you selected. You can see how the trends have changed over the past 5 years.
@@ -298,7 +298,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div id="helpLine" class="col-lg-6 col-md-6">
+				<div id="helpLine" class="col-lg-6 col-md-6 col-sm-6">
 					<center><h3 class="modal-title">Line Graph</h3></center>
 					<br>
 					<i>What to do:</i><br>
@@ -307,7 +307,7 @@
 					This line graph conveys <b>&#x0025 Sold for Gain</b>, which is the percentage of homes that sold for more than their previous purchase price within the region that you selected.
 				</div>
 
-				<div id="helpMisc" class="col-lg-6 col-md-6">
+				<div id="helpMisc" class="col-lg-6 col-md-6 col-sm-6">
 					<center><h3 class="modal-title">Food for Thought</h3></center>
 					<i>What you&#x0027re looking at: </i><br>
 					These are some other useful comparisons for you to consider. <strong>This section will not show if only one area is selected.</strong>
