@@ -206,7 +206,7 @@
 	  <script type="text/ng-template" id="mapModal.html">
 
 		  <div class="modal-header">
-		     <h3 class="modal-title">Choose a neighborhood to see its historical profitability</h3>
+		     <h3 class="modal-title">Choose a neighborhood to see its historical profitability</h3> <a class="btn btn-danger closemodal" ng-click="close()">Close Modal</a>
 		  </div>
 		  <div class="modal-body">
 		     <div class="row" id="maprow">
@@ -263,9 +263,7 @@
 			  </div>
 		  </div>
 		  <div class="modal-footer" id="why">
-			  	 <a class="btn btn-danger" ng-click="close()">Close Modal</a>
-			     <button class="btn btn-primary" ng-click="progress()">Load Visualizations</button>
-	  		 
+			     <a class="btn btn-primary" ng-click="progress()">Load Visualizations</a>
 		  </div>
 
 

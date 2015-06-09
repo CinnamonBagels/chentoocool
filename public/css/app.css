@@ -255,6 +255,11 @@ body {
     width: inherit;
 }
 
+.closemodal {
+  position: absolute;
+  left: 89%;
+  top: 10px;
+}
 .loadTitle {
   font-size: 2em;
   font-weight: bold;
